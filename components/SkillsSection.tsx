@@ -59,8 +59,8 @@ const SkillTag: React.FC<{ label: string }> = ({ label }) => {
 
 const SkillsSection: React.FC = () => {
   const proficientTools = ["Figma", "Framer", "FigJam"];
-  const workedWithTools = ["Cursor", "VS Code", "Kiro", "Bolt", "Github"];
-  const knownLanguages = ["C", "Python", "Java", "HTML", "CSS", "JS", "MS Word", "MS PowerPoint"];
+  const workedWithTools = ["Cursor", "VS Code", "Kiro", "Bolt", "Antigravity"];
+  const knownLanguages = ["C", "Python", "Java", "HTML", "CSS", "JS", "MS Word", "MS PowerPoint", "Github"];
 
   return (
     <section className="w-full px-6 md:px-16 pb-24 md:pb-32 pt-12 md:pt-24 max-w-[1400px] mx-auto font-onest bg-[#F4F4F4]">
@@ -89,7 +89,7 @@ const SkillsSection: React.FC = () => {
             {/* Column 2 */}
             <div className="md:col-span-4 flex flex-col items-start">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-200 pb-2 w-full">
-                    Tools I worked with
+                    Tools I work with
                 </h3>
                 <div className="flex flex-wrap gap-2.5">
                     {workedWithTools.map(tool => <SkillTag key={tool} label={tool} />)}
@@ -99,7 +99,7 @@ const SkillsSection: React.FC = () => {
             {/* Column 3 */}
             <div className="md:col-span-4 flex flex-col items-start">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-200 pb-2 w-full">
-                    I know
+                    I know (from college)
                 </h3>
                 <div className="flex flex-wrap gap-2.5">
                     {knownLanguages.map(tool => <SkillTag key={tool} label={tool} />)}

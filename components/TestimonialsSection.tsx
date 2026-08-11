@@ -74,7 +74,7 @@ const TestimonialsSection = () => {
                      />
                      <div className="flex-1 min-w-0">
                         <div className="flex items-baseline justify-between mb-1">
-                            <h4 className="font-bold text-xs md:text-sm uppercase tracking-wider text-[#1a1a1a] font-manrope truncate pr-2">
+                            <h4 className="font-bold text-xs md:text-sm uppercase tracking-wider text-[#1a1a1a] font-onest truncate pr-2">
                                 {t.name}
                             </h4>
                             <span className="font-serif italic text-base md:text-lg text-[#1a1a1a]/40 tracking-wide">

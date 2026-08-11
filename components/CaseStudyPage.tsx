@@ -2,18 +2,80 @@ import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import { ArrowRightIcon } from './Icons';
 
+import vatsalPost1 from '../img/vatsal parikh.jpg';
+import vatsalPost2 from '../img/vatsal parikh2.jpg';
+import scanAndPayImg from '../user_flow_img/Scan and Pay.png';
+import existingSplitFlowImg from '../user_flow_img/Split and Pay method.png';
+import newSplitInScanPayImg from '../user_flow_img/Current Split and pay method inside the scan and pay method (2).png';
+
+import designThumbnail from '../img/case study design/Thumbnail.png';
+import design1 from '../img/case study design/Desktop - 1.png';
+import design2 from '../img/case study design/Desktop - 2.png';
+import design3 from '../img/case study design/Desktop - 3.png';
+import design4 from '../img/case study design/Desktop - 4.png';
+import design5 from '../img/case study design/Desktop - 5.png';
+import design6 from '../img/case study design/Desktop - 6.png';
+import design7 from '../img/case study design/Desktop - 7.png';
+import design8 from '../img/case study design/Desktop - 8.png';
+
 interface CaseStudyPageProps {
   onBack: () => void;
 }
 
 const sections = [
-  { id: 'overview', title: 'Context & Story', number: '01' },
-  { id: 'competitive', title: 'Competitive Analysis', number: '02' },
-  { id: 'research', title: 'Research', number: '03' },
-  { id: 'define', title: 'Define', number: '04' },
-  { id: 'ideate', title: 'Ideate', number: '05' },
-  { id: 'design', title: 'Design', number: '06' },
+  { 
+    id: 'overview', title: 'Context & Story', number: '01',
+    children: [
+      { id: 'overview-product', title: 'Product Overview' },
+      { id: 'overview-story', title: 'The Story' }
+    ]
+  },
+  { 
+    id: 'competitive', title: 'Competitive Analysis', number: '02',
+    children: [
+      { id: 'competitive-landscape', title: 'Market Landscape' },
+      { id: 'competitive-takeaways', title: 'UX Takeaways' }
+    ]
+  },
+  { 
+    id: 'research', title: 'Research', number: '03',
+    children: [
+      { id: 'research-quantitative', title: 'Quantitative Research' },
+      { id: 'research-qualitative', title: 'Qualitative Research' }
+    ]
+  },
+  { 
+    id: 'define', title: 'Define', number: '04',
+    children: [
+      { id: 'define-process', title: 'Design Process' },
+      { id: 'define-problem', title: 'Problem vs Solution' }
+    ]
+  },
+  { 
+    id: 'ideate', title: 'User Flow', number: '05',
+    children: [
+      { id: 'ideate-scan', title: 'Scan and Pay Flow' },
+      { id: 'ideate-existing', title: 'Existing Split Method' },
+      { id: 'ideate-new', title: 'New Split Method' }
+    ]
+  },
+  { 
+    id: 'design', title: 'Design', number: '06',
+    children: []
+  },
 ];
+
+const DashedCircleIcon = ({ active }: { active?: boolean }) => (
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+    <circle cx="8" cy="8" r="6" stroke={active ? "#1a1a1a" : "#9CA3AF"} strokeWidth="1.5" strokeDasharray="3 3" fill="transparent" />
+  </svg>
+);
+
+const ChevronIcon = ({ expanded }: { expanded?: boolean }) => (
+  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={`shrink-0 transition-transform ${expanded ? 'rotate-90' : ''}`}>
+    <path d="M6 12L10 8L6 4" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
 // Reusable Small Data Table Component
 interface DataTableProps {
@@ -22,15 +84,15 @@ interface DataTableProps {
 }
 
 const DataTable: React.FC<DataTableProps> = ({ title, data }) => (
-  <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm h-full">
-    <div className="bg-gray-50 px-5 py-3 border-b border-gray-200">
-        <h4 className="font-bold text-xs uppercase tracking-widest text-gray-500">{title}</h4>
+  <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm flex flex-col h-full hover:shadow-md transition-shadow duration-300">
+    <div className="px-8 py-5 border-b border-gray-100">
+        <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">{title}</h4>
     </div>
-    <div className="divide-y divide-gray-100">
+    <div className="flex-grow divide-y divide-gray-50">
         {data.map((item, idx) => (
-            <div key={idx} className="flex justify-between items-start px-5 py-3 text-sm gap-4">
-                <span className="text-gray-600 font-medium">{item.label}</span>
-                <span className="font-bold text-[#1a1a1a] text-right">{item.value}</span>
+            <div key={idx} className="flex justify-between items-center px-8 py-6 text-sm gap-6 hover:bg-gray-50/30 transition-colors">
+                <span className="text-gray-500 font-medium leading-snug max-w-[160px]">{item.label}</span>
+                <span className="font-bold text-[#1a1a1a] text-right text-base shrink-0">{item.value}</span>
             </div>
         ))}
     </div>
@@ -91,6 +153,59 @@ const SurveyChart: React.FC<SurveyChartProps> = ({ question, data, insight }) =>
 };
 
 const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
+  const [activeId, setActiveId] = useState('overview');
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    overview: true,
+    competitive: true,
+    research: true,
+    define: true,
+    ideate: true,
+    design: true
+  });
+
+  const toggleSection = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  // Scroll spy logic to know where we stand
+  useEffect(() => {
+    const handleScroll = () => {
+        const isMobile = window.innerWidth < 768;
+        const spyOffset = isMobile ? 140 : 120; // Slightly larger than scrollToSection offset
+        const scrollPosition = window.scrollY + spyOffset; 
+
+        // Flatten all sections and children to get all trackable IDs
+        const allTrackables = sections.reduce((acc, curr) => {
+            acc.push(curr.id);
+            if (curr.children) {
+                curr.children.forEach(child => acc.push(child.id));
+            }
+            return acc;
+        }, [] as string[]);
+
+        // Find the element currently in view
+        let currentActiveId = sections[0].id;
+        for (const id of allTrackables) {
+            const element = document.getElementById(id);
+            if (element) {
+                const { offsetTop } = element;
+                if (scrollPosition >= offsetTop) {
+                    currentActiveId = id;
+                } else {
+                    break;
+                }
+            }
+        }
+        setActiveId(currentActiveId);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Scroll offset logic
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -131,7 +246,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
       },
       {
           phase: "Friction",
-          action: "Opens GPay -> Finds Split -> Switches app.",
+          action: "Opens GPay -> Finds Split -> Switches app / make group",
           thinking: "Why is this so hard? Too many steps.",
           feeling: "😤",
           feelingLabel: "Frustrated"
@@ -253,27 +368,36 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
   return (
     <div className="min-h-screen bg-[#F9F9F9] text-[#1a1a1a] font-onest animate-fade-in flex flex-col">
       
-      {/* Navigation / Back Button */}
-      <div className="absolute top-0 left-0 w-full p-6 md:p-10 z-50">
-        <button 
-            onClick={onBack}
-            className="group flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-[#1a1a1a] transition-colors"
-        >
-            <span className="group-hover:-translate-x-1 transition-transform">←</span>
-            Back to Home
-        </button>
-      </div>
+      {/* Navigation / Back Button - Removed as it is now handled by the sticky Header */}
 
       {/* Hero / Title Section */}
       <div className="pb-12 md:pb-24 max-w-[1400px] mx-auto px-6 md:px-16 w-full mt-24 md:mt-32">
          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end">
             <div className="lg:col-span-8">
-                <div className="flex items-center gap-3 mb-6">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]"></span>
-                    <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Google Pay • UX Case Study</span>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+                    <div className="flex items-center gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]"></span>
+                        <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Google Pay • UX Case Study</span>
+                    </div>
+                    <div className="flex flex-wrap gap-4">
+                        <a 
+                            href="https://www.figma.com/design/RdwSrdq0Gdd3VuA3PdoMO4/GooglePay-redesign?node-id=113-3979" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#18A0FB]/10 text-[#18A0FB] rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#18A0FB] hover:text-white transition-all duration-300 border border-[#18A0FB]/20"
+                        >
+                            <svg className="w-3 h-3" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 28.5C19 25.9834 20.0009 23.57 21.7825 21.7885C23.564 20.0069 25.9798 19.006 28.5 19.006C31.0202 19.006 33.436 20.0069 35.2175 21.7885C36.9991 23.57 38 25.9834 38 28.5C38 31.0166 36.9991 33.43 35.2175 35.2115C33.436 36.9931 31.0202 37.994 28.5 37.994C25.9798 37.994 23.564 36.9931 21.7825 35.2115C20.0009 33.43 19 31.0166 19 28.5Z" fill="currentColor"/>
+                                <path d="M19 9.5C19 6.98343 20.0009 4.56996 21.7825 2.78848C23.564 1.007 25.9798 0.00604248 28.5 0.00604248C31.0202 0.00604248 33.436 1.007 35.2175 2.78848C36.9991 4.56996 38 6.98343 38 9.5C38 12.0166 36.9991 14.43 35.2175 16.2115C33.436 17.993 31.0202 18.994 28.5 18.994C25.9798 18.994 23.564 17.993 21.7825 16.2115C20.0009 14.43 19 12.0166 19 9.5Z" fill="currentColor"/>
+                                <path d="M0 9.5C0 12.0166 1.00089 14.43 2.78248 16.2115C4.56407 17.993 6.97981 18.994 9.5 18.994C12.0202 18.994 14.4359 17.993 16.2175 16.2115C17.9991 14.43 19 12.0166 19 9.5C19 6.98343 17.9991 4.57 16.2175 2.78852C14.4359 1.00704 12.0202 0.00608253 9.5 0.00608253C6.97981 0.00608253 4.56407 1.00704 2.78248 2.78852C1.00089 4.57 0 6.98343 0 9.5Z" fill="currentColor"/>
+                                <path d="M0 28.5C0 31.0166 1.00089 33.43 2.78248 35.2115C4.56407 36.9931 6.97981 37.994 9.5 37.994C12.0202 37.994 14.4359 36.9931 16.2175 35.2115C17.9991 33.43 19 31.0166 19 28.5C19 25.9834 17.9991 23.57 16.2175 21.7885C14.4359 20.007 12.0202 19.006 9.5 19.006C6.97981 19.006 4.56407 20.007 2.78248 21.7885C1.00089 23.57 0 25.9834 0 28.5Z" fill="currentColor"/>
+                                <path d="M0 47.5C0 50.0166 1.00089 52.43 2.78248 54.2115C4.56407 55.9931 6.97981 56.994 9.5 56.994C12.0202 56.994 14.4359 55.9931 16.2175 54.2115C17.9991 52.43 19 50.0166 19 47.5V38H9.5C6.97981 38 4.56407 39.001 2.78248 40.7825C1.00089 42.5641 0 44.9798 0 47.5Z" fill="currentColor"/>
+                            </svg>
+                            Figma File
+                        </a>
+                    </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif font-normal leading-[1.05] text-[#1a1a1a] mb-6 md:mb-8">Seamless Split & Pay</h1>
-                <p className="text-lg md:text-xl leading-relaxed text-gray-600 font-onest max-w-2xl">Integrating expense splitting directly into the Scan & Pay flow to complete payment process without post-payment hassle.</p>
+                <p className="text-lg md:text-xl leading-relaxed text-gray-600 font-onest max-w-2xl mb-8">Integrating expense splitting directly into the Scan & Pay flow to complete payment process without post-payment hassle.</p>
             </div>
             <div className="lg:col-span-4 lg:pl-12">
                 <div className="grid grid-cols-2 gap-x-6 gap-y-10 border-l border-gray-200 pl-8">
@@ -301,16 +425,18 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
       {/* Mobile Sticky Navigation - Floating Style */}
       <div className="md:hidden sticky top-0 z-40 bg-[#F9F9F9]/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
           <div className="flex overflow-x-auto hide-scrollbar py-4 px-6 gap-6 items-center">
-            {sections.map((section) => (
+            {sections.map((section) => {
+                const isSectionActive = activeId === section.id || (section.children && section.children.some(c => c.id === activeId));
+                return (
                 <button 
                     key={section.id}
                     onClick={() => scrollToSection(section.id)}
-                    className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-gray-500 hover:text-[#1a1a1a] transition-colors shrink-0"
+                    className={`flex items-center gap-2 whitespace-nowrap text-xs font-medium transition-colors shrink-0 ${isSectionActive ? 'text-[#1a1a1a]' : 'text-gray-500 hover:text-[#1a1a1a]'}`}
                 >
-                    <span className="text-[10px] font-bold text-[#3B82F6]">{section.number}</span>
+                    <span className={`text-[10px] font-bold transition-colors ${isSectionActive ? 'text-[#3B82F6]' : 'text-[#3B82F6]/40'}`}>{section.number}</span>
                     <span>{section.title}</span>
                 </button>
-            ))}
+            )})}
           </div>
       </div>
 
@@ -319,20 +445,50 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
             
             {/* Desktop Sidebar Table of Contents */}
             <div className="hidden md:block md:col-span-3 lg:col-span-3">
-               <div className="sticky top-32">
-                  <div className="relative pl-4 border-l border-gray-200">
-                      <div className="flex flex-col gap-5">
-                        {sections.map((section) => (
-                            <button 
-                                key={section.id}
-                                onClick={() => scrollToSection(section.id)}
-                                className="group flex items-center gap-4 w-full text-left transition-all duration-300 relative z-10 text-sm font-medium text-gray-500 hover:text-[#1a1a1a]"
-                            >
-                                <span className="text-xs font-bold text-gray-300 group-hover:text-[#3B82F6] transition-colors">{section.number}</span>
-                                {section.title}
-                            </button>
-                        ))}
-                      </div>
+               <div className="sticky top-32 text-[#1a1a1a] font-onest max-h-[calc(100vh-8rem)] overflow-y-auto hide-scrollbar pb-8">
+                  <div className="flex flex-col gap-1">
+                    {sections.map((section) => {
+                        const isSectionActive = activeId === section.id || (section.children && section.children.some(c => c.id === activeId));
+                        return (
+                        <div key={section.id} className="flex flex-col relative">
+                           {/* Parent Node */}
+                           <div 
+                               className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-gray-100 cursor-pointer transition-colors group"
+                               onClick={() => scrollToSection(section.id)}
+                           >
+                               <div 
+                                 className="w-4 h-4 flex items-center justify-center -ml-1 text-gray-400 hover:text-gray-700 transition-colors"
+                                 onClick={(e) => toggleSection(section.id, e)}
+                               >
+                                 {section.children && section.children.length > 0 ? (
+                                   <ChevronIcon expanded={expandedSections[section.id]} />
+                                 ) : <div className="w-4 h-4" />}
+                               </div>
+                               <DashedCircleIcon active={isSectionActive} />
+                               <span className={`text-sm ${isSectionActive ? 'text-black font-semibold' : 'text-gray-700 font-medium group-hover:text-black'}`}>
+                                 {section.title}
+                               </span>
+                           </div>
+
+                           {/* Children Nodes */}
+                           {section.children && section.children.length > 0 && expandedSections[section.id] && (
+                             <div className="flex flex-col relative ml-4 pl-4 border-l border-gray-200 py-1 gap-1">
+                               {section.children.map((child) => (
+                                 <div 
+                                   key={child.id}
+                                   onClick={() => scrollToSection(child.id)}
+                                   className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-100 cursor-pointer transition-colors group"
+                                 >
+                                    <DashedCircleIcon active={activeId === child.id} />
+                                    <span className={`text-[13px] ${activeId === child.id ? 'text-black font-semibold' : 'text-gray-500 font-medium group-hover:text-black'}`}>
+                                      {child.title}
+                                    </span>
+                                 </div>
+                               ))}
+                             </div>
+                           )}
+                        </div>
+                    )})}
                   </div>
                </div>
             </div>
@@ -346,7 +502,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                   
                   {/* Reordered: Product Overview First */}
                   <div className="mb-12">
-                     <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Product Overview</h2>
+                     <h2 id="overview-product" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Product Overview</h2>
                      <div className="bg-[#E8F0FE] p-8 md:p-10 rounded-2xl">
                         <p className="text-lg leading-relaxed text-[#1a1a1a]">
                             <strong className="text-[#3B82F6]">Seamless Split and Pay</strong> allows you to instantly settle the expenses after the payment within a group through the “Scan QR code” flow itself. While Google Pay allows you to split expenses within a group but it’s a slow, manual process that happens after the whole payment process. The Split and Pay feature lives directly inside the Scan and Pay flow. It allows the person paying the bill to settle with friends at the exact moment they pay the merchant.
@@ -356,24 +512,17 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
 
                   {/* Context / The Story Second */}
                   <div className="mb-16">
-                    <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">The Story</h2>
+                    <h2 id="overview-story" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">The Story</h2>
                     <p className="text-gray-600 leading-relaxed mb-6">It was in the eve of 19th Dec, when I was scrolling through LinkedIn and stumbled upon this post. I realized I wasn't alone in letting go of small shared amounts to avoid the hassle, leading to significant unaccounted 'cash burn'.</p>
-                    <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm mb-8">
-                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                {/* Placeholder Avatar */}
-                                <div className="w-full h-full bg-gray-300"></div>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-sm">Vatsal Parikh</h4>
-                                <p className="text-xs text-gray-500">NMIMS MBA Core '27</p>
-                            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                         <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+                            <img src={vatsalPost1} alt="Vatsal Parikh LinkedIn Post 1" className="w-full h-auto object-cover" />
                          </div>
-                         <p className="italic text-gray-600 text-lg leading-relaxed">
-                            "One coffee. Two apps. Broken money tracking... Why does my expense ledger money app think I spent ₹1000 when I only spent ₹200? I pay ₹1000 via GPay for coffee with 4 other friends. My real expense is ₹200. Then I open Splitwise to make an entry... What I actually want: After making the transition through Google pay, Select Split and choose the group, ₹200 recorded as my true expense, ₹800 tracked as receivable."
-                         </p>
+                         <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+                            <img src={vatsalPost2} alt="Vatsal Parikh LinkedIn Post 2" className="w-full h-auto object-cover" />
+                         </div>
                     </div>
-                    <p className="text-gray-600 leading-relaxed mb-6">After reading this post I started to relate and also thought that there were many instances when, I too, faced such problem of splitting the money. I used to let go of small amount and eventually this led to a lot of cash burn. In the end of the month when I check where my money was gone I wasn’t able to estimate properly. And sometimes I used to forget about the expenses I made 25 days ago like why I spent this much of amount on so and so shop. Well this isn’t just about the statistics of where and why you spend the money, it’s about getting your money back when you split it among the group that will give you true satisfaction. And the only thing that’s stopping you from getting your money back is the UI and UX of the app because the feature is already present.</p>
+                    <p className="text-gray-600 leading-relaxed mb-6">After reading this post I started to relate and also thought that there were many instances when, I too, faced such problem of splitting the money. I used to let go of small amount and eventually this led to a lot of cash burn. In the end of the month when I check where my money was gone I wasn’t able to estimate properly. And sometimes I used to forget about the expenses I made 25 days ago like why I spent this much of amount on so and so shop. <strong className="text-[#1a1a1a] font-bold bg-[#E8F0FE] px-1 rounded-sm">Well this isn’t just about the statistics of where and why you spend the money, it’s about getting your money back when you split it among the group that will give you true satisfaction.</strong> And the only thing that’s stopping you from getting your money back is the UI and UX of the app because the feature is already present.</p>
                     <p className="text-gray-600 leading-relaxed mb-6">Now the question is whether should I use one app or two apps for splitting the amount? The answer is you definitely want all this things to happen on a single app only. So I did a competitive analysis on the 3 most popular UPI app of India where you can instantly pay the money to the merchant through QR code but can’t instantly split among the group.</p>
                   </div>
                </section>
@@ -381,7 +530,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                {/* 02 Competitive Analysis */}
                <section id="competitive" className="scroll-mt-32">
                   <span className="block text-[#3B82F6] text-xs font-bold tracking-widest uppercase mb-4">02 — Competitive Analysis</span>
-                  <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Market Landscape</h2>
+                  <h2 id="competitive-landscape" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Market Landscape</h2>
                   
                   <p className="text-lg text-gray-600 leading-relaxed mb-12">
                       I’ve taken the three most popular and used UPI app for competitive analysis and not the other apps
@@ -459,24 +608,22 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                   </div>
 
                   <div className="mb-16">
-                      <h3 className="text-xl font-bold text-[#1a1a1a] mb-6">- UX Takeaways</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                              <h4 className="font-bold text-[#1a1a1a] mb-2">Groups Fatigue</h4>
-                              <p className="text-sm text-gray-600 leading-relaxed">Mandatory group creation for every split and pay method.</p>
-                          </div>
-                          <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                              <h4 className="font-bold text-[#1a1a1a] mb-2">Post Memory-Tax</h4>
-                              <p className="text-sm text-gray-600 leading-relaxed">Have to remember the split after payment and then mandatory group creation.</p>
-                          </div>
-                          <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                              <h4 className="font-bold text-[#1a1a1a] mb-2">Flow vs Feature</h4>
-                              <p className="text-sm text-gray-600 leading-relaxed">I’m not adding a new feature rather I’m just modifying the existing feature to improve the current UX. I will make sure the user can split on the moment he pays the merchant.</p>
-                          </div>
-                          <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                              <h4 className="font-bold text-[#1a1a1a] mb-2">Public Chat</h4>
-                              <p className="text-sm text-gray-600 leading-relaxed">Making an announcement in the group for payment can not be good user experience for everyone, rather sending them personal message for payment instantly after the payment can create a good user experience.</p>
-                          </div>
+                      <h3 id="competitive-takeaways" className="scroll-mt-32 text-xl font-serif text-[#1a1a1a] mb-8">- UX Takeaways</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 auto-rows-fr">
+                            {[
+                                { title: "Groups Fatigue", desc: "Mandatory group creation for every split and pay method.", className: "md:col-span-1" },
+                                { title: "Post Memory-Tax", desc: "Have to remember the split after payment and then mandatory group creation.", className: "md:col-span-1" },
+                                { title: "Flow vs Feature", desc: "I’m not adding a new feature rather I’m just modifying the existing feature to improve the current UX. I will make sure the user can split on the moment he pays the merchant.", className: "md:col-span-1 md:row-span-2" },
+                                { title: "Public Chat", desc: "Making an announcement in the group for payment can not be good user experience for everyone, rather sending them personal message for payment instantly after the payment can create a good user experience.", className: "md:col-span-2" }
+                            ].map((item, i) => (
+                                <div key={i} className={`bg-white p-8 rounded-3xl border border-gray-200 shadow-sm hover:shadow-md hover:bg-gray-50 transition-all duration-300 flex flex-col justify-center ${item.className}`}>
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <span className="text-[10px] font-bold text-[#3B82F6] bg-blue-50 px-2 py-0.5 rounded-md">0{i + 1}</span>
+                                        <h4 className="font-bold text-[#1a1a1a] text-lg">{item.title}</h4>
+                                    </div>
+                                    <p className="text-sm text-gray-500 leading-relaxed font-onest">{item.desc}</p>
+                                </div>
+                            ))}
                       </div>
                   </div>
                </section>
@@ -487,20 +634,20 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                   
                   {/* Quantitative Research */}
                   <div className="mb-24">
-                     <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Quantitative Research</h2>
+                     <h2 id="research-quantitative" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Quantitative Research</h2>
                      <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                          Before getting into who are the users of Google Pay app let’s understand that why most of the people use Google Pay for or on what purpose they pull out the Gpay scanner to pay.
                          Here’s the breakdown of on what category the UPI payment is done mostly, the data is taken from gemini:
                      </p>
                      
-                     {/* Merchant Spend Table */}
-                     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm mb-12">
-                        <div className="bg-gray-50 px-5 py-3 border-b border-gray-200 grid grid-cols-1 md:grid-cols-12 gap-4">
-                            <h4 className="md:col-span-4 font-bold text-xs uppercase tracking-widest text-gray-500">Category</h4>
-                            <h4 className="md:col-span-3 font-bold text-xs uppercase tracking-widest text-gray-500">% Spend</h4>
-                            <h4 className="md:col-span-5 font-bold text-xs uppercase tracking-widest text-gray-500">Typical Use Case</h4>
+                     {/* Merchant Spend Table - Exactly matching the screenshot provided */}
+                     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-16">
+                        <div className="bg-white px-8 py-5 border-b border-gray-100 hidden md:grid md:grid-cols-[1.5fr_1fr_2fr] gap-4">
+                            <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">Category</h4>
+                            <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">% Spend</h4>
+                            <h4 className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">Typical Use Case</h4>
                         </div>
-                        <div className="divide-y divide-gray-100">
+                        <div className="divide-y divide-gray-100/60">
                             {[
                                 { cat: "Apparel & Fashion", pct: "27.70%", use: "Shopping at Zara, H&M, or online via Myntra/Ajio." },
                                 { cat: "Beauty & Fitness", pct: "13.50%", use: "Gym memberships, salon visits, and Nykaa orders." },
@@ -509,10 +656,10 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                                 { cat: "Groceries", pct: "10%", use: "Quick-commerce (Blinkit/Zepto) and Supermarkets." },
                                 { cat: "Travel & Mobility", pct: "8%", use: "Uber/Ola rides and flight bookings." }
                             ].map((row, i) => (
-                                <div key={i} className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-5 py-3 text-sm items-start hover:bg-gray-50 transition-colors">
-                                    <span className="md:col-span-4 text-gray-600 font-medium">{row.cat}</span>
-                                    <span className="md:col-span-3 font-bold text-[#1a1a1a]">{row.pct}</span>
-                                    <span className="md:col-span-5 text-gray-600 leading-relaxed">{row.use}</span>
+                                <div key={i} className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_2fr] gap-4 md:gap-4 px-8 py-7 md:py-8 text-sm items-center hover:bg-gray-50/30 transition-colors">
+                                    <span className="text-gray-700 font-medium md:text-base">{row.cat}</span>
+                                    <span className="font-bold text-[#1a1a1a] text-base md:text-lg">{row.pct}</span>
+                                    <span className="text-gray-500 leading-relaxed md:text-[13px]">{row.use}</span>
                                 </div>
                             ))}
                         </div>
@@ -527,10 +674,9 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                      </p>
 
                      {/* Demographics Grid */}
-                     <h3 className="text-2xl font-serif mb-8 text-[#1a1a1a]">Demographics & Usage Patterns</h3>
-                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                         <DataTable 
-                            title="Professions" 
+                            title="Professions"
                             data={[
                                 { label: "Tech & IT Professionals", value: "38.00%" },
                                 { label: "Corporate Salaried / Finance", value: "24.00%" },
@@ -539,31 +685,31 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                             ]}
                         />
                         <DataTable 
-                            title="Geographic Distribution" 
+                            title="Geographic"
                             data={[
                                 { label: "Tier-1 / Metro Cities", value: "80.00%" },
                                 { label: "Tier-2 & Tier-3 Cities", value: "16.50%" },
                                 { label: "Rural Areas", value: "3.50%" }
                             ]}
                         />
-                         <DataTable 
-                            title="Age Group" 
+                        <DataTable 
+                            title="Age Group"
                             data={[
+                                { label: "25 – 40 Years (Millennials)", value: "45.0%" },
                                 { label: "18 – 24 Years (Gen Z)", value: "28.30%" },
-                                { label: "25 – 40 Years (Millennials)", value: "45.0% (Largest)" },
                                 { label: "41 – 55 Years (Gen X)", value: "18.50%" },
                                 { label: "Above 55 Years", value: "8.20%" }
                             ]}
                         />
                         <DataTable 
-                            title="Device Usage" 
+                            title="Device Usage"
                             data={[
                                 { label: "Android OS", value: "82.00%" },
                                 { label: "iOS (iPhone)", value: "18.00%" }
                             ]}
                         />
-                         <DataTable 
-                            title="Gender Distribution" 
+                        <DataTable 
+                            title="Gender"
                             data={[
                                 { label: "Male", value: "55.00%" },
                                 { label: "Female", value: "45.00%" }
@@ -597,7 +743,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
 
                   {/* Qualitative Research */}
                   <div>
-                    <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Qualitative Research</h2>
+                    <h2 id="research-qualitative" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Qualitative Research</h2>
                     
                     {/* User Survey Insights */}
                     <div className="mb-16">
@@ -652,11 +798,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                     <div className="mt-16 border-t border-gray-200 pt-16">
                         <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-8 gap-4">
                             <h3 className="text-2xl font-serif text-[#1a1a1a]">Sumedh's Journey (Current State)</h3>
-                            <div className="flex gap-4 text-xs font-medium text-gray-500">
-                                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-gray-200"></span> Neutral</span>
-                                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-green-200"></span> Positive</span>
-                                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-200"></span> Negative</span>
-                            </div>
+
                         </div>
                         
                         <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm overflow-x-auto">
@@ -699,7 +841,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                    
                    {/* Design Process Section */}
                    <div className="mb-20">
-                        <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Design Process</h2>
+                        <h2 id="define-process" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Design Process</h2>
                         <p className="text-lg text-gray-600 mb-12 leading-relaxed">
                             Here’s the design process that I followed for improving the UX of Google Pay. I took Google pay for redesign 
                             because it is the second most used UPI for online payment after Phonepe. Unlike Phonepe, the Google pay
@@ -741,18 +883,14 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                         </div>
                    </div>
 
-                   <h2 className="text-3xl md:text-5xl font-serif font-normal mb-12 text-[#1a1a1a]">Problem vs Solution</h2>
+                   <h2 id="define-problem" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-12 text-[#1a1a1a]">Problem vs Solution</h2>
                    
                    {/* The Problems Section */}
                    <div className="mb-16">
-                       <h3 className="text-xl font-bold text-[#1a1a1a] mb-8 flex items-center gap-3">
-                           <span className="flex items-center justify-center w-8 h-8 rounded-full bg-red-50 text-red-500 text-xs">⚠️</span>
-                           The Problems
-                       </h3>
+                       <h3 className="text-xl font-bold text-[#1a1a1a] mb-8">The Problems</h3>
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                            {defineData.map((item, i) => (
                                <div key={i} className="bg-white p-6 rounded-xl border border-red-100 shadow-sm hover:border-red-200 transition-colors">
-                                   <div className="text-xs font-bold text-red-400 mb-2">Problem {item.number}</div>
                                    <h4 className="font-bold text-lg text-[#1a1a1a] mb-3">{item.problemTitle}</h4>
                                    <p className="text-gray-600 text-sm leading-relaxed">{item.problemDesc}</p>
                                </div>
@@ -762,14 +900,10 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
 
                    {/* The Solutions Section */}
                    <div className="mb-16">
-                       <h3 className="text-xl font-bold text-[#1a1a1a] mb-8 flex items-center gap-3">
-                           <span className="flex items-center justify-center w-8 h-8 rounded-full bg-green-50 text-green-500 text-xs">💡</span>
-                           The Solutions
-                       </h3>
+                       <h3 className="text-xl font-bold text-[#1a1a1a] mb-8">The Solutions</h3>
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                            {defineData.map((item, i) => (
                                <div key={i} className="bg-white p-6 rounded-xl border border-green-100 shadow-sm hover:border-green-200 transition-colors bg-green-50/20 flex flex-col">
-                                   <div className="text-xs font-bold text-green-600 mb-2">Solution {item.number}</div>
                                    <h4 className="font-bold text-lg text-[#1a1a1a] mb-3">{item.solutionTitle}</h4>
                                    <p className="text-gray-600 text-sm leading-relaxed mb-4">{item.solutionDesc}</p>
                                </div>
@@ -777,45 +911,58 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                        </div>
                    </div>
 
-                   {/* User Journey Map (Revised) */}
-                   <h3 className="text-2xl font-serif mb-8 text-[#1a1a1a] mt-24">User Journey Map (Proposed)</h3>
-                   <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm overflow-x-auto">
-                      <div className="min-w-[800px] grid grid-cols-5 divide-x divide-gray-100 text-sm">
-                          {/* Headers */}
-                          <div className="bg-gray-50/50 p-4 font-bold text-gray-500 uppercase tracking-widest text-xs flex items-center">Actions</div>
-                          <div className="p-4 bg-white text-[#1a1a1a]">Open GPay app</div>
-                          <div className="p-4 bg-white text-[#1a1a1a]">Open "Scan QR"</div>
-                          <div className="p-4 bg-white text-[#1a1a1a]">Input Amount</div>
-                          <div className="p-4 bg-blue-50 text-blue-800 font-bold border-t-2 border-blue-500">Tap "Split" Toggle</div>
 
-                          {/* Task List */}
-                          <div className="bg-gray-50/50 p-4 font-bold text-gray-500 uppercase tracking-widest text-xs flex items-center">Goal</div>
-                          <div className="p-4 border-t border-gray-100">Pay Merchant</div>
-                          <div className="p-4 border-t border-gray-100">Initiate Payment</div>
-                          <div className="p-4 border-t border-gray-100">Define Value</div>
-                          <div className="p-4 border-t border-gray-100 bg-blue-50/30">Split & Pay instantly</div>
-
-                          {/* Feeling */}
-                          <div className="bg-gray-50/50 p-4 font-bold text-gray-500 uppercase tracking-widest text-xs flex items-center">Feeling</div>
-                          <div className="p-4 border-t border-gray-100 text-2xl">😐</div>
-                          <div className="p-4 border-t border-gray-100 text-2xl">😐</div>
-                          <div className="p-4 border-t border-gray-100 text-2xl">🙂</div>
-                          <div className="p-4 border-t border-gray-100 text-2xl">🤩</div>
-
-                          {/* Thoughts */}
-                          <div className="bg-gray-50/50 p-4 font-bold text-gray-500 uppercase tracking-widest text-xs flex items-center">Thinking</div>
-                          <div className="p-4 border-t border-gray-100 text-gray-500 italic">"Let's get this done."</div>
-                          <div className="p-4 border-t border-gray-100 text-gray-500 italic">"Scanning..."</div>
-                          <div className="p-4 border-t border-gray-100 text-gray-500 italic">"It's 1200 total."</div>
-                          <div className="p-4 border-t border-gray-100 text-blue-600 font-medium italic">"Wow, I can split right here!"</div>
-                      </div>
-                   </div>
                </section>
 
-               {/* 05 Ideate - Placeholder to satisfy navigation */}
-               <section id="ideate" className="scroll-mt-32">
-                   <span className="block text-[#3B82F6] text-xs font-bold tracking-widest uppercase mb-4">05 — Ideate</span>
-                   <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Ideate</h2>
+<section id="ideate" className="scroll-mt-32">
+                   <span className="block text-[#3B82F6] text-xs font-bold tracking-widest uppercase mb-4">05 — User Flow</span>
+                   
+                    <div className="mb-12">
+                         {/* 1st - Scan and Pay Flow */}
+                        <h3 id="ideate-scan" className="scroll-mt-32 text-xl font-bold text-[#1a1a1a] mb-8">User Flow of Scan and Pay</h3>
+                        <div 
+                            className="border border-gray-100 overflow-hidden shadow-sm bg-white mb-12 cursor-zoom-in group relative"
+                            onClick={() => setSelectedImg(scanAndPayImg)}
+                        >
+                            <img 
+                                src={scanAndPayImg} 
+                                alt="User Flow of Scan and Pay" 
+                                className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300"></div>
+                        </div>
+
+                        {/* 2nd - Existing Flow */}
+                        <h3 id="ideate-existing" className="scroll-mt-32 text-xl font-bold text-[#1a1a1a] mb-8">Existing Split expense method</h3>
+                        <div 
+                            className="border border-gray-100 overflow-hidden shadow-sm bg-white mb-6 cursor-zoom-in group relative"
+                            onClick={() => setSelectedImg(existingSplitFlowImg)}
+                        >
+                            <img 
+                                src={existingSplitFlowImg} 
+                                alt="Existing Split expense method" 
+                                className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300"></div>
+                        </div>
+                        <p className="text-gray-600 leading-relaxed font-onest mb-12 max-w-2xl px-2">
+                           As you can see that the current Split and pay scenario is separate and in different sections. If user wants to split the expense, either he has to go to the history or have to navigate to the 'Pay Anyone' section.
+                        </p>
+
+                        {/* 3rd - New Integrated Flow */}
+                        <h3 id="ideate-new" className="scroll-mt-32 text-xl font-bold text-[#1a1a1a] mb-8">New Split and Pay method inside the Scan and pay flow</h3>
+                        <div 
+                            className="border border-gray-100 overflow-hidden shadow-sm bg-white cursor-zoom-in group relative"
+                            onClick={() => setSelectedImg(newSplitInScanPayImg)}
+                        >
+                            <img 
+                                src={newSplitInScanPayImg} 
+                                alt="New Split and Pay method inside the Scan and pay flow" 
+                                className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300"></div>
+                        </div>
+                    </div>
                    <p className="text-gray-600 leading-relaxed mb-8">
                      (This section is under construction)
                    </p>
@@ -824,10 +971,27 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                {/* 06 Design - Placeholder to satisfy navigation */}
                <section id="design" className="scroll-mt-32">
                    <span className="block text-[#3B82F6] text-xs font-bold tracking-widest uppercase mb-4">06 — Design</span>
-                   <h2 className="text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Design</h2>
-                   <p className="text-gray-600 leading-relaxed mb-8">
-                     (This section is under construction)
+                   <h2 id="design-intro" className="scroll-mt-32 text-3xl md:text-5xl font-serif font-normal mb-8 text-[#1a1a1a]">Design</h2>
+                   <p className="text-gray-600 leading-relaxed mb-12">
+                     Here are the high-fidelity designs and screens showing the new integrated Split and Pay method within Google Pay's existing flow.
                    </p>
+
+                   <div className="flex flex-col gap-12 md:gap-16">
+                     {[designThumbnail, design1, design2, design3, design4, design5, design6, design7, design8].map((imgSrc, index) => (
+                        <div 
+                            key={index}
+                            className="border border-gray-100 overflow-hidden shadow-sm bg-white cursor-zoom-in group relative"
+                            onClick={() => setSelectedImg(imgSrc)}
+                        >
+                            <img 
+                                src={imgSrc} 
+                                alt={`Design Screen ${index + 1}`} 
+                                className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300"></div>
+                        </div>
+                     ))}
+                   </div>
                </section>
 
             </div>
@@ -837,6 +1001,32 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
       <div className="mt-auto">
         <Footer />
       </div>
+      {/* Full-Screen Image Lightbox */}
+      {selectedImg && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 animate-fade-in"
+          onClick={() => setSelectedImg(null)}
+        >
+          {/* High-Contrast Blurred Background */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-xl transition-all"></div>
+          
+          {/* Close Button */}
+          <button className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors z-20">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Image Frame */}
+          <div className="relative z-10 max-w-full max-h-full overflow-hidden rounded-xl shadow-2xl border border-white/10 animate-scale-in">
+            <img 
+              src={selectedImg} 
+              alt="Full Size View" 
+              className="max-w-full max-h-[85vh] object-contain"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
