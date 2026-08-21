@@ -50,7 +50,7 @@ const SkillTag: React.FC<{ label: string }> = ({ label }) => {
     return (
         <span 
             onClick={playNote}
-            className="inline-block px-4 py-2 bg-white border border-gray-200 rounded-md text-sm font-medium text-gray-600 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all duration-200 cursor-pointer select-none active:scale-95 shadow-sm"
+            className="inline-block px-[1rem] py-[0.618rem] bg-white border border-gray-200 rounded-md text-sm font-medium text-gray-600 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all duration-200 cursor-pointer select-none active:scale-95 shadow-sm"
         >
             {label}
         </span>
@@ -63,45 +63,45 @@ const SkillsSection: React.FC = () => {
   const knownLanguages = ["C", "Python", "Java", "HTML", "CSS", "JS", "MS Word", "MS PowerPoint", "Github"];
 
   return (
-    <section className="w-full px-6 md:px-16 pb-24 md:pb-32 pt-12 md:pt-24 max-w-[1400px] mx-auto font-onest bg-[#F4F4F4]">
+    <section className="w-full px-[1.618rem] md:px-[4.236rem] pb-[6.854rem] md:pb-[11.09rem] pt-[4.236rem] md:pt-[6.854rem] max-w-[1400px] mx-auto font-onest bg-[#F4F4F4]">
         
         {/* Section Header - Aligned with WorkSection */}
-        <div className="mb-16 md:mb-24">
+        <div className="mb-[4.236rem] md:mb-[6.854rem]">
            <h2 className="text-[2.5rem] md:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[0.9]">
               Technical <span className="text-gray-400 italic font-serif">proficiency.</span>
            </h2>
-           <div className="w-24 h-[1px] bg-black/10 mt-8"></div>
+           <div className="w-24 h-[1px] bg-black/10 mt-[2.618rem]"></div>
         </div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-y-12 md:gap-x-8 lg:gap-x-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-y-[4.236rem] md:gap-x-[2.618rem] lg:gap-x-[4.236rem]">
             
             {/* Column 1 */}
             <div className="md:col-span-4 flex flex-col items-start">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-200 pb-2 w-full">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-[1.618rem] border-b border-gray-200 pb-[0.618rem] w-full">
                     Proficient in tools
                 </h3>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap gap-[0.618rem]">
                     {proficientTools.map(tool => <SkillTag key={tool} label={tool} />)}
                 </div>
             </div>
 
             {/* Column 2 */}
             <div className="md:col-span-4 flex flex-col items-start">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-200 pb-2 w-full">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-[1.618rem] border-b border-gray-200 pb-[0.618rem] w-full">
                     Tools I work with
                 </h3>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap gap-[0.618rem]">
                     {workedWithTools.map(tool => <SkillTag key={tool} label={tool} />)}
                 </div>
             </div>
 
             {/* Column 3 */}
             <div className="md:col-span-4 flex flex-col items-start">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-200 pb-2 w-full">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-[1.618rem] border-b border-gray-200 pb-[0.618rem] w-full">
                     I know (from college)
                 </h3>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap gap-[0.618rem]">
                     {knownLanguages.map(tool => <SkillTag key={tool} label={tool} />)}
                 </div>
             </div>

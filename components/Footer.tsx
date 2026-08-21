@@ -44,18 +44,18 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-[#E86A3E] text-[#1a1a1a] pt-16 md:pt-24 pb-8 px-6 md:px-16 font-onest relative overflow-hidden border-t border-[#1a1a1a]/10">
-       <div className="max-w-[1400px] mx-auto flex flex-col justify-between min-h-[50vh]">
+       <div className="max-w-[1400px] mx-auto flex flex-col">
           
           {/* Top Section */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-20 md:mb-32">
+          <div className="flex flex-col md:flex-row justify-between gap-12 md:gap-12 mb-[2.618rem] md:mb-[4.236rem] w-full">
              
-             {/* Left: Contact Info */}
-             <div className="md:col-span-5 lg:col-span-4 flex flex-col justify-between h-full min-h-[160px]">
+             {/* Left: Contact Info (Golden Ratio 61.8%) */}
+             <div className="w-full md:w-[61.8%] flex flex-col justify-between h-full min-h-[160px]">
                 <div className="flex flex-col gap-3">
-                   <span className="text-[10px] text-[#1a1a1a]/60 font-bold uppercase tracking-[0.2em] mb-2">Drop a line</span>
+                   <span className="text-[0.618rem] text-[#1a1a1a]/60 font-bold uppercase tracking-[0.2em] mb-2">Drop a line</span>
                    <button 
                       onClick={handleCopyEmail} 
-                      className="text-left text-lg md:text-xl font-medium text-[#1a1a1a] hover:text-white transition-colors flex items-center gap-3 group"
+                      className="text-left text-[1rem] md:text-[1.618rem] font-medium text-[#1a1a1a] hover:text-white transition-colors flex items-center gap-3 group"
                    >
                       {email} 
                       {!copiedEmail && (
@@ -68,7 +68,7 @@ const Footer = () => {
                    </button>
                    <button 
                       onClick={handleCopyPhone} 
-                      className="text-left text-lg md:text-xl font-medium text-[#1a1a1a] hover:text-white transition-colors flex items-center gap-3 group"
+                      className="text-left text-[1rem] md:text-[1.618rem] font-medium text-[#1a1a1a] hover:text-white transition-colors flex items-center gap-3 group"
                    >
                       {phone} 
                       {!copiedPhone && (
@@ -81,47 +81,50 @@ const Footer = () => {
                    </button>
                 </div>
                 
-                <div className="mt-12 flex flex-col gap-1 text-[10px] text-[#1a1a1a]/60 font-bold uppercase tracking-[0.2em]">
+                <div className="mt-12 flex flex-col gap-1 text-[0.618rem] text-[#1a1a1a]/60 font-bold uppercase tracking-[0.2em]">
                    <span>Local Time</span>
                    <span className="text-[#1a1a1a]">{time} IST</span>
                 </div>
              </div>
      
-             {/* Middle: Socials */}
-             <div className="md:col-span-4 lg:col-span-4 flex flex-col">
-                <span className="text-[10px] text-[#1a1a1a]/60 font-bold uppercase tracking-[0.2em] mb-6">Socials</span>
-                <div className="flex flex-col gap-4 text-base md:text-lg font-medium text-[#1a1a1a]">
-                   <a href="https://www.linkedin.com/in/rohit-kumar-bb4223230" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors self-start">LinkedIn</a>
-                   <a href="https://x.com/grohit_ux" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors self-start">Twitter</a>
-                   <a href="#" className="hover:text-white transition-colors self-start">Read.cv</a>
-                </div>
-             </div>
-     
-             {/* Right: Actions / Copyright */}
-             <div className="md:col-span-3 lg:col-span-4 flex flex-col md:items-end justify-between">
-                <button 
-                  onClick={scrollToTop} 
-                  className="group flex items-center gap-2 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a] self-start md:self-end"
-                >
-                   Back to top
-                   <span className="w-5 h-5 rounded-full border border-[#1a1a1a]/30 flex items-center justify-center group-hover:border-white transition-colors">
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                         <path d="M12 19V5M5 12l7-7 7 7"/>
-                      </svg>
-                   </span>
-                </button>
-                
-                <div className="mt-12 md:mt-auto text-[10px] text-[#1a1a1a]/50 font-bold uppercase tracking-widest md:text-right">
-                    © 2025 Rohit. All Rights Reserved.
-                </div>
+             {/* Right: Socials & Actions (Golden Ratio 38.2%) */}
+             <div className="w-full md:w-[38.2%] flex flex-col md:flex-row justify-between gap-12 md:gap-4 h-full min-h-[160px]">
+                 {/* Socials */}
+                 <div className="flex flex-col">
+                    <span className="text-[0.618rem] text-[#1a1a1a]/60 font-bold uppercase tracking-[0.2em] mb-6">Socials</span>
+                    <div className="flex flex-col gap-4 text-[1rem] font-medium text-[#1a1a1a]">
+                       <a href="https://www.linkedin.com/in/rohit-kumar-bb4223230" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors self-start">LinkedIn</a>
+                       <a href="https://x.com/grohit_ux" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors self-start">Twitter</a>
+                       <a href="#" className="hover:text-white transition-colors self-start">Read.cv</a>
+                    </div>
+                 </div>
+         
+                 {/* Actions / Copyright */}
+                 <div className="flex flex-col md:items-end justify-between">
+                    <button 
+                      onClick={scrollToTop} 
+                      className="group flex items-center gap-2 hover:text-white transition-colors text-[0.618rem] font-bold uppercase tracking-widest text-[#1a1a1a] self-start md:self-end"
+                    >
+                       Back to top
+                       <span className="w-5 h-5 rounded-full border border-[#1a1a1a]/30 flex items-center justify-center group-hover:border-white transition-colors">
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                             <path d="M12 19V5M5 12l7-7 7 7"/>
+                          </svg>
+                       </span>
+                    </button>
+                    
+                    <div className="mt-12 md:mt-auto text-[0.618rem] text-[#1a1a1a]/50 font-bold uppercase tracking-widest md:text-right">
+                        © 2025 Rohit. All Rights Reserved.
+                    </div>
+                 </div>
              </div>
           </div>
      
           {/* Bottom Huge Text */}
-          <div className="w-full flex flex-col mt-auto pt-8 border-t border-[#1a1a1a]/10">
+          <div className="w-full flex flex-col pt-8 border-t border-[#1a1a1a]/10">
               <div 
                   className="flex flex-col text-[#1a1a1a] font-serif leading-[0.9] tracking-tight pt-4 md:pt-8 group cursor-pointer" 
-                  style={{ fontSize: 'clamp(45px, 11vw, 250px)' }}
+                  style={{ fontSize: 'clamp(42px, 11vw, 288px)' }}
                   onClick={() => window.location.href = `mailto:${email}`}
               >
                   <span className="-ml-[1vw] transition-colors duration-500 group-hover:text-white">Let's start a</span>

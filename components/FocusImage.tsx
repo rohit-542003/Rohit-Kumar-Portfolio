@@ -8,10 +8,9 @@ const FocusImage: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [position, setPosition] = useState({ x: 25, y: 30 }); // Initial design position in %
 
-  // Box dimensions in percentage relative to container
-  // Increased size as requested
-  const BOX_WIDTH_PCT = 55;
-  const BOX_HEIGHT_PCT = 65;
+  // Box dimensions strictly set to the Golden Ratio proportion (61.8%)
+  const BOX_WIDTH_PCT = 61.8;
+  const BOX_HEIGHT_PCT = 61.8;
 
   const handleMove = (clientX: number, clientY: number) => {
     if (!containerRef.current) return;
@@ -64,7 +63,7 @@ const FocusImage: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[300px] aspect-[300/400] mx-auto md:mr-0 select-none cursor-crosshair overflow-hidden touch-none"
+      className="relative w-full max-w-[17.944rem] aspect-[1/1.618] mx-auto md:mr-0 select-none cursor-crosshair overflow-hidden touch-none"
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       onTouchMove={onTouchMove}

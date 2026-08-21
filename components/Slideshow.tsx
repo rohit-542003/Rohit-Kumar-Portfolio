@@ -27,14 +27,14 @@ const Slideshow: React.FC = () => {
     };
 
     return (
-        <section className="w-full overflow-hidden py-12 md:py-24 bg-transparent flex flex-col items-center">
-            <div className="max-w-[1400px] w-full px-6 md:px-16 mb-8">
+        <section className="w-full overflow-hidden py-[4.236rem] md:py-[6.854rem] bg-transparent flex flex-col items-center">
+            <div className="max-w-[1400px] w-full px-[1.618rem] md:px-[4.236rem] mb-[2.618rem]">
                 <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Some of my Designs</h4>
             </div>
             
             <div className="relative w-full flex overflow-hidden group">
                 {/* Continuous Ticker Animation */}
-                <div className="flex gap-4 md:gap-10 animate-ticker hover:[animation-play-state:paused] py-2">
+                <div className="flex gap-[1rem] md:gap-[2.618rem] animate-ticker hover:[animation-play-state:paused] py-[0.618rem]">
                     {displayImages.map((src, idx) => (
                         <div 
                             key={idx} 
@@ -42,7 +42,7 @@ const Slideshow: React.FC = () => {
                             className="relative flex-shrink-0 w-[240px] md:w-[500px] aspect-[16/10] rounded-2xl overflow-hidden border border-black/5 shadow-md transform transition-all duration-500 hover:scale-[1.02] hover:shadow-xl group/card cursor-pointer bg-white"
                         >
                             {/* Adjusted padding to make them look less "zoomed out" as requested */}
-                            <div className="w-full h-full p-1 md:p-3 flex items-center justify-center">
+                            <div className="w-full h-full p-[0.382rem] md:p-[1rem] flex items-center justify-center">
                                 <img 
                                     src={src} 
                                     alt={`Design slide ${idx + 1}`} 
@@ -69,7 +69,7 @@ const Slideshow: React.FC = () => {
                     </div>
                     
                     <div 
-                        className="relative max-w-[65vw] max-h-[55vh] transform animate-zoomIn flex items-center justify-center p-4"
+                        className="relative max-w-[65vw] max-h-[55vh] transform animate-zoomIn flex items-center justify-center p-[1rem]"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <img 
@@ -88,7 +88,7 @@ const Slideshow: React.FC = () => {
                         transform: translateX(0);
                     }
                     100% {
-                        transform: translateX(calc(-50% - 1.25rem)); /* adjustment for gap */
+                        transform: translateX(calc(-50% - 0.5rem)); /* adjustment for gap (0.5 * 1rem) */
                     }
                 }
                 @keyframes fadeIn {
@@ -116,7 +116,7 @@ const Slideshow: React.FC = () => {
                             transform: translateX(0);
                         }
                         100% {
-                            transform: translateX(calc(-50% - 1.25rem)); /* adjustment for gap */
+                            transform: translateX(calc(-50% - 1.309rem)); /* adjustment for gap (0.5 * 2.618rem) */
                         }
                     }
                 }

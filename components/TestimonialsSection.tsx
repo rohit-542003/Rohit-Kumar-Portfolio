@@ -33,14 +33,14 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="w-full py-32 bg-[#F4F4F4] overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-16 mb-24 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+    <section className="w-full py-[6.854rem] md:py-[11.09rem] bg-[#F4F4F4] overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-[1.618rem] md:px-[4.236rem] mb-[6.854rem] flex flex-col md:flex-row items-start md:items-end justify-between gap-[1.618rem]">
         <h2 className="text-[2.5rem] md:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[0.9]">
            What do<br/>
            <span className="text-gray-400 italic font-serif">people say?</span>
         </h2>
         {/* Decorative line */}
-        <div className="hidden md:block w-32 h-[1px] bg-black/10 mb-4"></div>
+        <div className="hidden md:block w-32 h-[1px] bg-black/10 mb-[1rem]"></div>
       </div>
       
       {/* Marquee Container */}
@@ -49,24 +49,24 @@ const TestimonialsSection = () => {
          <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r from-[#F4F4F4] via-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
          <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l from-[#F4F4F4] via-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
 
-         <div className="flex gap-4 md:gap-8 animate-marquee w-max px-6 items-stretch hover:[animation-play-state:paused]">
+         <div className="flex gap-[1rem] md:gap-[2.618rem] animate-marquee w-max px-[1.618rem] items-stretch hover:[animation-play-state:paused]">
             {/* Triple the list for smooth infinite loop */}
             {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
                <div 
                 key={i} 
-                className="w-[270px] md:w-[480px] bg-white p-6 md:p-10 rounded-sm border border-gray-200/60 flex flex-col justify-between shrink-0 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 group select-none"
+                className="w-[270px] md:w-[480px] bg-white p-[1.618rem] md:p-[2.618rem] rounded-sm border border-gray-200/60 flex flex-col justify-between shrink-0 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:-translate-y-[0.382rem] group select-none"
                >
                   {/* Quote Content */}
-                  <div className="mb-6 md:mb-8 relative">
+                  <div className="mb-[1.618rem] md:mb-[2.618rem] relative">
                       {/* Decorative Quote Mark */}
-                      <span className="absolute -top-2 md:-top-3 -left-1 text-5xl md:text-6xl text-[#E86A3E] font-serif opacity-20 font-normal leading-none">“</span>
-                      <p className="relative text-lg md:text-2xl leading-relaxed text-[#1a1a1a] font-serif font-normal pt-4 md:pt-6 z-10">
+                      <span className="absolute -top-[0.618rem] md:-top-[1rem] -left-[0.382rem] text-5xl md:text-6xl text-[#E86A3E] font-serif opacity-20 font-normal leading-none">“</span>
+                      <p className="relative text-lg md:text-2xl leading-relaxed text-[#1a1a1a] font-serif font-normal pt-[1rem] md:pt-[1.618rem] z-10">
                         {t.quote}
                       </p>
                   </div>
 
                   {/* Author Info */}
-                  <div className="flex items-center gap-3 md:gap-4 pt-4 md:pt-6 border-t border-gray-100 mt-auto">
+                  <div className="flex items-center gap-[0.618rem] md:gap-[1rem] pt-[1rem] md:pt-[1.618rem] border-t border-gray-100 mt-auto">
                      <img 
                         src={t.image} 
                         alt={t.name} 

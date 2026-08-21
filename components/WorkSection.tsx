@@ -19,9 +19,9 @@ const GooglePayThumbnail = () => (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-50/50 rounded-full blur-3xl"></div>
 
     {/* Main Phone/Card Graphic */}
-    <div className="relative z-10 w-64 md:w-80 bg-white rounded-[2rem] shadow-2xl border-4 border-gray-100 p-4 transform transition-transform duration-700 group-hover:scale-105 group-hover:-translate-y-2">
+    <div className="relative z-10 w-64 md:w-80 bg-white rounded-[2rem] shadow-2xl border-4 border-gray-100 p-[1rem] transform transition-transform duration-700 group-hover:scale-105 group-hover:-translate-y-[0.382rem]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6 px-2">
+      <div className="flex justify-between items-center mb-[1.618rem] px-[0.618rem]">
         <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
           <div className="w-4 h-4 bg-blue-600 rounded-full"></div>
         </div>
@@ -52,15 +52,15 @@ const GooglePayThumbnail = () => (
       </div>
 
       {/* Floating Action Button */}
-      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#1a73e8] text-white px-6 py-2 rounded-full shadow-lg shadow-blue-200 text-xs font-bold tracking-wide flex items-center gap-2">
+      <div className="absolute -bottom-[1rem] left-1/2 -translate-x-1/2 bg-[#1a73e8] text-white px-[1.618rem] py-[0.618rem] rounded-full shadow-lg shadow-blue-200 text-xs font-bold tracking-wide flex items-center gap-[0.618rem]">
         <span>Pay Now</span>
         <span className="opacity-70">→</span>
       </div>
     </div>
 
     {/* Text Overlay */}
-    <div className="absolute bottom-8 md:bottom-12 z-20 text-center">
-      <h3 className="text-2xl md:text-3xl font-bold text-blue-900 mb-1">Seamless</h3>
+    <div className="absolute bottom-[2.618rem] md:bottom-[4.236rem] z-20 text-center">
+      <h3 className="text-2xl md:text-3xl font-bold text-blue-900 mb-[0.382rem]">Seamless</h3>
       <h3 className="text-xl md:text-2xl font-medium text-blue-600/80">Split & Pay</h3>
     </div>
   </div>
@@ -79,7 +79,7 @@ const ProjectCard: React.FC<{
             <div className={`absolute inset-0 ${project.gradientClass}`}>
               <div className="absolute inset-0 bg-white/10" />
             </div>
-            <div className="absolute inset-0 flex items-center justify-center p-4">
+            <div className="absolute inset-0 flex items-center justify-center p-[1rem]">
               <h3 className="text-3xl md:text-5xl lg:text-5xl font-medium tracking-tight text-white text-center">
                 {project.centerText}
               </h3>
@@ -110,7 +110,7 @@ const ProjectCard: React.FC<{
   return (
     <div className="group cursor-none flex flex-col h-full" onClick={onClick}>
       <div
-        className="relative w-full aspect-[4/3] md:aspect-[1.4/1] overflow-hidden rounded-sm mb-5 transition-all duration-500 ease-out shadow-sm md:group-hover:translate-y-[-4px] md:group-hover:shadow-md bg-gray-100"
+        className="relative w-full aspect-[4/3] md:aspect-[1.4/1] overflow-hidden rounded-sm mb-[1.618rem] transition-all duration-500 ease-out shadow-sm md:group-hover:-translate-y-[0.382rem] md:group-hover:shadow-md bg-gray-100"
         data-cursor-type="text"
         data-cursor-label="View Case Study"
       >
@@ -118,13 +118,13 @@ const ProjectCard: React.FC<{
       </div>
 
       <div className="mt-auto">
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-6">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-[1rem] mb-[1.618rem]">
           <a 
             href="https://www.figma.com/design/RdwSrdq0Gdd3VuA3PdoMO4/GooglePay-redesign?node-id=113-3979" 
             target="_blank" 
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#18A0FB]/10 text-[#18A0FB] rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#18A0FB] hover:text-white transition-all duration-300 border border-[#18A0FB]/20 w-fit"
+            className="inline-flex items-center gap-[0.618rem] px-[1rem] py-[0.618rem] bg-[#18A0FB]/10 text-[#18A0FB] rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#18A0FB] hover:text-white transition-all duration-300 border border-[#18A0FB]/20 w-fit"
           >
             <svg className="w-3 h-3" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M19 28.5C19 25.9834 20.0009 23.57 21.7825 21.7885C23.564 20.0069 25.9798 19.006 28.5 19.006C31.0202 19.006 33.436 20.0069 35.2175 21.7885C36.9991 23.57 38 25.9834 38 28.5C38 31.0166 36.9991 33.43 35.2175 35.2115C33.436 36.9931 31.0202 37.994 28.5 37.994C25.9798 37.994 23.564 36.9931 21.7825 35.2115C20.0009 33.43 19 31.0166 19 28.5Z" fill="currentColor"/>
@@ -156,15 +156,15 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
   };
 
   return (
-    <section id="work" className="w-full px-6 md:px-16 pb-24 md:pb-32 max-w-[1400px] mx-auto">
-      <div className="mb-8 md:mb-12 pt-12 md:pt-24">
+    <section id="work" className="w-full px-[1.618rem] md:px-[4.236rem] pb-[6.854rem] md:pb-[11.09rem] max-w-[1400px] mx-auto">
+      <div className="mb-[2.618rem] md:mb-[4.236rem] pt-[4.236rem] md:pt-[6.854rem]">
         <h2 className="text-[2.5rem] md:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[0.9]">
           Selected <span className="text-gray-400 italic font-serif">Work.</span>
         </h2>
-        <div className="w-24 h-[1px] bg-black/10 mt-8"></div>
+        <div className="w-24 h-[1px] bg-black/10 mt-[2.618rem]"></div>
       </div>
 
-      <div className="flex flex-col gap-16 md:grid md:grid-cols-2 md:gap-x-12">
+      <div className="flex flex-col gap-[4.236rem] md:grid md:grid-cols-2 md:gap-x-[4.236rem]">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}

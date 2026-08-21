@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, isCaseStudy, onNavigate })
       const scrollPosition = window.scrollY + 120;
       const sections = isCaseStudy
         ? ['overview', 'research', 'define', 'architecture', 'design', 'outcome']
-        : ['work', 'contact'];
+        : ['work'];
 
       let current = '';
       for (const section of sections) {
@@ -85,13 +85,40 @@ const Header: React.FC<HeaderProps> = ({ currentView, isCaseStudy, onNavigate })
               >
                 About
               </button>
-              <button
-                onClick={() => onNavigate('contact')}
-                className={`text-[10px] md:text-sm uppercase tracking-widest transition-colors ${activeSection === 'contact' ? 'font-bold text-[#1a1a1a]' : 'font-bold text-gray-400 hover:text-[#E86A3E]'
-                  }`}
-              >
-                Contact
-              </button>
+              <div className="relative group">
+                <button
+                  className="flex items-center gap-1 text-[10px] md:text-sm uppercase tracking-widest transition-colors font-bold text-gray-400 hover:text-[#E86A3E]"
+                >
+                  Contact
+                  <svg className="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute top-full right-0 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                  <div className="bg-white border border-black/10 rounded-lg shadow-lg overflow-hidden flex flex-col">
+                    <button 
+                      onClick={() => navigator.clipboard.writeText('rohitkumarp2003@gmail.com')}
+                      className="flex items-center justify-between gap-2 px-4 py-3 text-left text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-[#F4F4F4] hover:text-[#E86A3E] transition-colors group/btn"
+                    >
+                      <span>Copy Email</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover/btn:opacity-100 transition-opacity">
+                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                    <button 
+                      onClick={() => navigator.clipboard.writeText('+91 9108006402')}
+                      className="flex items-center justify-between gap-2 px-4 py-3 text-left text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-[#F4F4F4] hover:text-[#E86A3E] transition-colors group/btn"
+                    >
+                      <span>+91 9108006402</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover/btn:opacity-100 transition-opacity">
+                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </nav>
