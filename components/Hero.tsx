@@ -40,7 +40,7 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ showImage = true, showMainHeading = true }) => {
   return (
-    <section className="relative w-full min-h-[90vh] lg:min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-16 pt-24 sm:pt-28 pb-12 max-w-[1400px] mx-auto font-onest overflow-hidden">
+    <section className="relative w-full min-h-[100svh] flex flex-col justify-center px-4 sm:px-6 md:px-16 overflow-hidden pt-24 sm:pt-0 pb-12 sm:pb-0">
       <style>{`
         @keyframes weight-wave { 0%, 100% { font-variation-settings: "wght" 200; opacity: 0.8; } 50% { font-variation-settings: "wght" 800; opacity: 1; } }
         .gradient-border-mask {
@@ -50,7 +50,7 @@ const Hero: React.FC<HeroProps> = ({ showImage = true, showMainHeading = true })
         }
       `}</style>
 
-      <div className="w-full max-w-[1060px] mx-auto flex flex-col gap-6 sm:gap-8 md:gap-10 mt-[-5vh]">
+      <div className="w-full max-w-[1060px] mx-auto flex flex-col gap-6 sm:gap-8 md:gap-10 sm:mt-[-5vh]">
         {/* Full-width top section for Status and Main Headline */}
         {showMainHeading && (
           <div className="w-full flex flex-col items-start">
@@ -106,39 +106,39 @@ const Hero: React.FC<HeroProps> = ({ showImage = true, showMainHeading = true })
                   {/* Primary Button */}
                   <a 
                     href="mailto:uxrohitkumar@gmail.com" 
-                    className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-[#282828] text-white border border-black/80 rounded-[40px] overflow-hidden transition-all duration-300 hover:pr-12 active:scale-95 shadow-sm hover:bg-[#1a1a1a] hover:shadow-md text-sm sm:text-base"
+                    className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-[#282828] text-white border border-black/80 rounded-[40px] overflow-hidden transition-all duration-300 sm:hover:pr-12 active:scale-95 shadow-sm sm:hover:bg-[#1a1a1a] sm:hover:shadow-md text-sm sm:text-base"
                   >
                     {/* Content (Text & Icon) */}
-                    <span className="relative z-10 font-normal tracking-normal leading-none blur-[2px] opacity-80 group-hover:blur-none group-hover:opacity-100 transition-all duration-500">Let's Build/Talk</span>
-                    <span className="absolute right-5 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 z-10">
+                    <span className="relative z-10 font-normal tracking-normal leading-none sm:blur-[2px] sm:opacity-80 sm:group-hover:blur-none sm:group-hover:opacity-100 transition-all duration-500">Let's Build/Talk</span>
+                    <span className="hidden sm:inline-block absolute right-5 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 z-10">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
                     </span>
 
                     {/* Ambient Soft Shine */}
-                    <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[200%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-1000 ease-in-out pointer-events-none z-10"></div>
+                    <div className="hidden sm:block absolute inset-0 -translate-x-[150%] group-hover:translate-x-[200%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-1000 ease-in-out pointer-events-none z-10"></div>
                     
                     {/* Subtle Rainbow Prism Glare */}
-                    <div className="absolute top-0 bottom-0 left-0 w-24 -translate-x-[20rem] group-hover:translate-x-[25rem] bg-[linear-gradient(to_right,transparent,rgba(236,72,153,0.2),rgba(234,179,8,0.2),rgba(59,130,246,0.2),transparent)] skew-x-12 transition-none group-hover:transition-transform group-hover:duration-[1100ms] ease-out pointer-events-none z-10"></div>
+                    <div className="hidden sm:block absolute top-0 bottom-0 left-0 w-24 -translate-x-[20rem] group-hover:translate-x-[25rem] bg-[linear-gradient(to_right,transparent,rgba(236,72,153,0.2),rgba(234,179,8,0.2),rgba(59,130,246,0.2),transparent)] skew-x-12 transition-none group-hover:transition-transform group-hover:duration-[1100ms] ease-out pointer-events-none z-10"></div>
 
                     {/* Hard Sharp Glass Shine */}
-                    <div className="absolute top-0 bottom-0 left-0 w-12 -translate-x-[20rem] group-hover:translate-x-[25rem] bg-gradient-to-r from-transparent via-white/70 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-[850ms] ease-out pointer-events-none z-10"></div>
+                    <div className="hidden sm:block absolute top-0 bottom-0 left-0 w-12 -translate-x-[20rem] group-hover:translate-x-[25rem] bg-gradient-to-r from-transparent via-white/70 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-[850ms] ease-out pointer-events-none z-10"></div>
                   </a>
 
                   {/* Secondary Button */}
                   <a 
                     href={resumePdf} 
                     download="Rohit_Kumar_Prajapati_Resume.pdf"
-                    className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-transparent border border-black/20 text-[#1a1a1a] rounded-[40px] overflow-hidden transition-all duration-300 hover:border-black hover:pr-12 active:scale-95 text-sm sm:text-base"
+                    className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-transparent border border-black/20 text-[#1a1a1a] rounded-[40px] overflow-hidden transition-all duration-300 sm:hover:border-black sm:hover:pr-12 active:scale-95 text-sm sm:text-base"
                   >
                     <span className="relative z-10 font-normal tracking-normal leading-none">Download Resume / CV</span>
-                    <span className="absolute right-5 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                    <span className="hidden sm:inline-block absolute right-5 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                       </svg>
                     </span>
-                    <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] bg-gradient-to-r from-transparent via-black/10 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-1000 ease-in-out pointer-events-none"></div>
+                    <div className="hidden sm:block absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] bg-gradient-to-r from-transparent via-black/10 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-1000 ease-in-out pointer-events-none"></div>
                   </a>
                 </div>
               )}
