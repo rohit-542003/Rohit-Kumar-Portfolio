@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import { ArrowRightIcon } from './Icons';
 
-import vatsalPost1 from '../img/vatsal parikh.jpg';
-import vatsalPost2 from '../img/vatsal parikh2.jpg';
-import scanAndPayImg from '../user_flow_img/Scan and Pay.png';
-import existingSplitFlowImg from '../user_flow_img/Split and Pay method.png';
+import vatsalPost1 from '../img/vatsal parikh.webp';
+import vatsalPost2 from '../img/vatsal parikh2.webp';
+import scanAndPayImg from '../user_flow_img/Scan and Pay.webp';
+import existingSplitFlowImg from '../user_flow_img/Split and Pay method.webp';
 import newSplitInScanPayImg from '../user_flow_img/Current Split and pay method inside the scan and pay method (2).png';
 
-import designThumbnail from '../img/case study design/Thumbnail.png';
-import design1 from '../img/case study design/Desktop - 1.png';
-import design2 from '../img/case study design/Desktop - 2.png';
-import design3 from '../img/case study design/Desktop - 3.png';
-import design4 from '../img/case study design/Desktop - 4.png';
-import design5 from '../img/case study design/Desktop - 5.png';
-import design6 from '../img/case study design/Desktop - 6.png';
-import design7 from '../img/case study design/Desktop - 7.png';
-import design8 from '../img/case study design/Desktop - 8.png';
+import designThumbnail from '../img/case study design/Thumbnail.webp';
+import design1 from '../img/case study design/Desktop - 1.webp';
+import design2 from '../img/case study design/Desktop - 2.webp';
+import design3 from '../img/case study design/Desktop - 3.webp';
+import design4 from '../img/case study design/Desktop - 4.webp';
+import design5 from '../img/case study design/Desktop - 5.webp';
+import design6 from '../img/case study design/Desktop - 6.webp';
+import design7 from '../img/case study design/Desktop - 7.webp';
+import design8 from '../img/case study design/Desktop - 8.webp';
 
 interface CaseStudyPageProps {
   onBack: () => void;
@@ -506,10 +506,10 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                     <p className="text-gray-600 leading-relaxed mb-[1.618rem]">It was in the eve of 19th Dec, when I was scrolling through LinkedIn and stumbled upon this post. I realized I wasn't alone in letting go of small shared amounts to avoid the hassle, leading to significant unaccounted 'cash burn'.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[1.618rem] mb-[2.618rem]">
                          <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
-                            <img src={vatsalPost1} alt="Vatsal Parikh LinkedIn Post 1" className="w-full h-auto object-cover" />
+                            <img loading="lazy" src={vatsalPost1} alt="Vatsal Parikh LinkedIn Post 1" className="w-full h-auto object-cover" />
                          </div>
                          <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
-                            <img src={vatsalPost2} alt="Vatsal Parikh LinkedIn Post 2" className="w-full h-auto object-cover" />
+                            <img loading="lazy" src={vatsalPost2} alt="Vatsal Parikh LinkedIn Post 2" className="w-full h-auto object-cover" />
                          </div>
                     </div>
                     <p className="text-gray-600 leading-relaxed mb-[1.618rem]">After reading this post I started to relate and also thought that there were many instances when, I too, faced such problem of splitting the money. I used to let go of small amount and eventually this led to a lot of cash burn. In the end of the month when I check where my money was gone I wasn’t able to estimate properly. And sometimes I used to forget about the expenses I made 25 days ago like why I spent this much of amount on so and so shop. <strong className="text-[#1a1a1a] font-bold bg-[#E8F0FE] px-[0.382rem] rounded-sm">Well this isn’t just about the statistics of where and why you spend the money, it’s about getting your money back when you split it among the group that will give you true satisfaction.</strong> And the only thing that’s stopping you from getting your money back is the UI and UX of the app because the feature is already present.</p>
@@ -913,7 +913,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                             className="border border-gray-100 overflow-hidden shadow-sm bg-white mb-[2.618rem] cursor-zoom-in group relative"
                             onClick={() => setSelectedImg(scanAndPayImg)}
                         >
-                            <img 
+                            <img loading="lazy" 
                                 src={scanAndPayImg} 
                                 alt="User Flow of Scan and Pay" 
                                 className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
@@ -927,7 +927,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                             className="border border-gray-100 overflow-hidden shadow-sm bg-white mb-[1.618rem] cursor-zoom-in group relative"
                             onClick={() => setSelectedImg(existingSplitFlowImg)}
                         >
-                            <img 
+                            <img loading="lazy" 
                                 src={existingSplitFlowImg} 
                                 alt="Existing Split expense method" 
                                 className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
@@ -944,7 +944,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                             className="border border-gray-100 overflow-hidden shadow-sm bg-white cursor-zoom-in group relative"
                             onClick={() => setSelectedImg(newSplitInScanPayImg)}
                         >
-                            <img 
+                            <img loading="lazy" 
                                 src={newSplitInScanPayImg} 
                                 alt="New Split and Pay method inside the Scan and pay flow" 
                                 className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
@@ -972,7 +972,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                             className="border border-gray-100 overflow-hidden shadow-sm bg-white cursor-zoom-in group relative"
                             onClick={() => setSelectedImg(imgSrc)}
                         >
-                            <img 
+                            <img loading="lazy" 
                                 src={imgSrc} 
                                 alt={`Design Screen ${index + 1}`} 
                                 className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
@@ -1008,7 +1008,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
 
           {/* Image Frame */}
           <div className="relative z-10 max-w-full max-h-full overflow-hidden rounded-xl shadow-2xl border border-white/10 animate-scale-in">
-            <img 
+            <img loading="lazy" 
               src={selectedImg} 
               alt="Full Size View" 
               className="max-w-full max-h-[85vh] object-contain"

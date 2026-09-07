@@ -1,11 +1,11 @@
 import React from 'react';
 import Footer from './Footer';
-import thumbnailTypeMe from '../img/thumbnail_typeme.png';
-import thumbnailDrixMedia from '../img/thumbnail_drixmedia.gif';
-import thumbnailFlytSocial from '../img/thumbnail_flytsocial.png';
-import thumbnailRelax from '../img/thumbnail_relax.png';
-import thumbnailSolliquo from '../img/thumbnail_solliquo.png';
-import thumbnailFirstOX from '../img/thumbnail_FirstOX.gif';
+import thumbnailTypeMe from '../img/thumbnail_typeme.webp';
+import thumbnailDrixMedia from '../img/thumbnail_drixmedia.webp';
+import thumbnailFlytSocial from '../img/thumbnail_flytsocial.webp';
+import thumbnailRelax from '../img/thumbnail_relax.webp';
+import thumbnailSolliquo from '../img/thumbnail_solliquo.webp';
+import thumbnailFirstOX from '../img/thumbnail_FirstOX.webp';
 
 export interface ProjectDetailData {
   id: number;
@@ -328,8 +328,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onBack
       {/* 1. Main Visual Media Display (Thumbnail First) */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 mb-12 md:mb-20">
         <div className={`relative w-full aspect-[16/9] md:aspect-[2.1/1] overflow-hidden rounded-3xl shadow-xl border border-black/10 ${project.bgColor} flex items-center justify-center p-4 sm:p-8 md:p-12`}>
-          <img
-            src={project.imageSrc}
+          <img loading="lazy"             src={project.imageSrc}
             alt={project.title}
             className={`w-full h-full ${
               project.fitMode === 'contain' ? 'object-contain max-h-[90%]' : 'object-cover'

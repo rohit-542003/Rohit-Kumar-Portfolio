@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 // Using local image from img folder
-import IMAGE_URL from '../img/me.jpg';
+import IMAGE_URL from '../img/me.webp';
 
 interface FocusImageProps {
   className?: string;
@@ -78,7 +78,7 @@ const FocusImage: React.FC<FocusImageProps> = ({ className = '' }) => {
 
       {/* Base Blurred Image */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <img
+        <img loading="lazy" 
           src={IMAGE_URL}
           alt="Rohit Portrait Blur"
           className="w-full h-full object-cover grayscale blur-[6px] scale-110 opacity-80 block"
@@ -97,7 +97,7 @@ const FocusImage: React.FC<FocusImageProps> = ({ className = '' }) => {
         }}
       >
         {/* Inner Clear Image */}
-        <img
+        <img loading="lazy" 
           src={IMAGE_URL}
           alt="Rohit Portrait Focus"
           className={`absolute max-w-none grayscale object-cover block ${transitionClass}`}

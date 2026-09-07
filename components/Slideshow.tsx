@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 // Manual imports for the slideshow images
-import ss2 from '../img/ss2.png';
-import ss3 from '../img/ss3.png';
-import ss4 from '../img/ss4.png';
-import ss5 from '../img/ss5.png';
+import ss2 from '../img/ss2.webp';
+import ss3 from '../img/ss3.webp';
+import ss4 from '../img/ss4.webp';
+import ss5 from '../img/ss5.webp';
 
 const slideImages = [ss2, ss3, ss4, ss5];
 
@@ -183,7 +183,7 @@ const Slideshow: React.FC = () => {
                             className="relative flex-shrink-0 w-[260px] sm:w-[380px] md:w-[480px] aspect-[16/10] rounded-2xl overflow-hidden border border-black/5 shadow-md transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer bg-white group/card"
                         >
                             <div className="w-full h-full p-2 sm:p-3 flex items-center justify-center">
-                                <img 
+                                <img loading="lazy" 
                                     src={src} 
                                     alt={`Design slide ${idx + 1}`} 
                                     draggable={false}
@@ -213,7 +213,7 @@ const Slideshow: React.FC = () => {
                         className="relative max-w-[85vw] max-h-[85vh] transform animate-zoomIn flex items-center justify-center p-4"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <img 
+                        <img loading="lazy" 
                             src={selectedImage} 
                             alt="Design Close Up" 
                             className="w-auto h-auto max-w-full max-h-full object-contain shadow-2xl rounded-xl border border-white/10"

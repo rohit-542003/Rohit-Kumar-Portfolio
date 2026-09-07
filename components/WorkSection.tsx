@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
-import thumbnailGPay from '../img/thumbnail_gpay.png';
-import thumbnailTypeMe from '../img/thumbnail_typeme.png';
-import thumbnailDrixMedia from '../img/thumbnail_drixmedia.gif';
-import thumbnailFlytSocial from '../img/thumbnail_flytsocial.png';
-import thumbnailRelax from '../img/thumbnail_relax.png';
-import thumbnailSolliquo from '../img/thumbnail_solliquo.png';
-import thumbnailFirstOX from '../img/thumbnail_FirstOX.gif';
+import thumbnailGPay from '../img/thumbnail_gpay.webp';
+import thumbnailTypeMe from '../img/thumbnail_typeme.webp';
+import thumbnailDrixMedia from '../img/thumbnail_drixmedia.webp';
+import thumbnailFlytSocial from '../img/thumbnail_flytsocial.webp';
+import thumbnailRelax from '../img/thumbnail_relax.webp';
+import thumbnailSolliquo from '../img/thumbnail_solliquo.webp';
+import thumbnailFirstOX from '../img/thumbnail_FirstOX.webp';
 import { ArrowRightIcon } from './Icons';
 
 export interface ProjectItem {
