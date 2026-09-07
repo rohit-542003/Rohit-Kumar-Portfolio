@@ -371,65 +371,59 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
       {/* Navigation / Back Button - Removed as it is now handled by the sticky Header */}
 
       {/* Hero / Title Section */}
-      <div className="pb-[2.618rem] md:pb-[6.854rem] max-w-[1400px] mx-auto px-[1.618rem] md:px-[4.236rem] w-full mt-[6.854rem] md:mt-[6.854rem]">
-         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[2.618rem] lg:gap-[1.618rem] items-end">
+      <div className="pb-10 md:pb-20 max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 w-full mt-24 sm:mt-28 md:mt-32">
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
             <div className="lg:col-span-8">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-[1.618rem] mb-[1.618rem]">
-                    <div className="flex items-center gap-[0.618rem]">
-                        <span className="w-[0.382rem] h-[0.382rem] rounded-full bg-[#3B82F6]"></span>
-                        <span className="text-[0.618rem] font-bold uppercase tracking-widest text-gray-500">Google Pay • UX Case Study</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#3B82F6]"></span>
+                        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-500">Google Pay • UX Case Study</span>
                     </div>
-                    <div className="flex flex-wrap gap-[1rem]">
+                    <div className="flex flex-wrap gap-3">
                         <a 
                             href="https://www.figma.com/design/RdwSrdq0Gdd3VuA3PdoMO4/GooglePay-redesign?node-id=113-3979" 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-[0.382rem] px-[1rem] py-[0.382rem] bg-[#18A0FB]/10 text-[#18A0FB] rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#18A0FB] hover:text-white transition-all duration-300 border border-[#18A0FB]/20"
+                            className="group inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#18A0FB] hover:text-[#0b79c3] transition-colors"
                         >
-                            <svg className="w-3 h-3" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 28.5C19 25.9834 20.0009 23.57 21.7825 21.7885C23.564 20.0069 25.9798 19.006 28.5 19.006C31.0202 19.006 33.436 20.0069 35.2175 21.7885C36.9991 23.57 38 25.9834 38 28.5C38 31.0166 36.9991 33.43 35.2175 35.2115C33.436 36.9931 31.0202 37.994 28.5 37.994C25.9798 37.994 23.564 36.9931 21.7825 35.2115C20.0009 33.43 19 31.0166 19 28.5Z" fill="currentColor"/>
-                                <path d="M19 9.5C19 6.98343 20.0009 4.56996 21.7825 2.78848C23.564 1.007 25.9798 0.00604248 28.5 0.00604248C31.0202 0.00604248 33.436 1.007 35.2175 2.78848C36.9991 4.56996 38 6.98343 38 9.5C38 12.0166 36.9991 14.43 35.2175 16.2115C33.436 17.993 31.0202 18.994 28.5 18.994C25.9798 18.994 23.564 17.993 21.7825 16.2115C20.0009 14.43 19 12.0166 19 9.5Z" fill="currentColor"/>
-                                <path d="M0 9.5C0 12.0166 1.00089 14.43 2.78248 16.2115C4.56407 17.993 6.97981 18.994 9.5 18.994C12.0202 18.994 14.4359 17.993 16.2175 16.2115C17.9991 14.43 19 12.0166 19 9.5C19 6.98343 17.9991 4.57 16.2175 2.78852C14.4359 1.00704 12.0202 0.00608253 9.5 0.00608253C6.97981 0.00608253 4.56407 1.00704 2.78248 2.78852C1.00089 4.57 0 6.98343 0 9.5Z" fill="currentColor"/>
-                                <path d="M0 28.5C0 31.0166 1.00089 33.43 2.78248 35.2115C4.56407 36.9931 6.97981 37.994 9.5 37.994C12.0202 37.994 14.4359 36.9931 16.2175 35.2115C17.9991 33.43 19 31.0166 19 28.5C19 25.9834 17.9991 23.57 16.2175 21.7885C14.4359 20.007 12.0202 19.006 9.5 19.006C6.97981 19.006 4.56407 20.007 2.78248 21.7885C1.00089 23.57 0 25.9834 0 28.5Z" fill="currentColor"/>
-                                <path d="M0 47.5C0 50.0166 1.00089 52.43 2.78248 54.2115C4.56407 55.9931 6.97981 56.994 9.5 56.994C12.0202 56.994 14.4359 55.9931 16.2175 54.2115C17.9991 52.43 19 50.0166 19 47.5V38H9.5C6.97981 38 4.56407 39.001 2.78248 40.7825C1.00089 42.5641 0 44.9798 0 47.5Z" fill="currentColor"/>
-                            </svg>
                             Figma File
+                            <ArrowRightIcon className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-45" />
                         </a>
                     </div>
                 </div>
-                <p className="text-[1.618rem] md:text-[1rem] leading-relaxed text-gray-600 font-onest max-w-2xl mb-[1.618rem]">Integrating expense splitting directly into the Scan & Pay flow to complete payment process without post-payment hassle.</p>
+                <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-600 font-onest max-w-2xl mb-6">Integrating expense splitting directly into the Scan & Pay flow to complete payment process without post-payment hassle.</p>
             </div>
-            <div className="lg:col-span-4 lg:pl-[2.618rem]">
-                <div className="grid grid-cols-2 gap-x-[1.618rem] gap-y-[2.618rem] border-l border-gray-200 pl-[1.618rem]">
+            <div className="lg:col-span-4 lg:pl-8">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-6 sm:gap-y-8 border-l border-gray-200 pl-6">
                      <div className="col-span-2">
-                        <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-[0.382rem]">Role</span>
-                        <span className="text-[1rem] font-serif text-[#1a1a1a]">UX Research & Design</span>
+                        <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Role</span>
+                        <span className="text-sm sm:text-base font-serif text-[#1a1a1a]">UX Research & Design</span>
                      </div>
                      <div className="col-span-2">
-                        <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-[0.382rem]">Tools to Make</span>
-                        <span className="text-[1rem] font-serif text-[#1a1a1a]">Figma, FigJam, Google AI Studio, Antigravity</span>
+                        <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tools to Make</span>
+                        <span className="text-sm sm:text-base font-serif text-[#1a1a1a]">Figma, FigJam, Google AI Studio, Antigravity</span>
                      </div>
                      <div className="col-span-2">
-                        <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-[0.382rem]">Tools for Research</span>
-                        <span className="text-[1rem] font-serif text-[#1a1a1a]">Gemini 3, Perplexity Pro</span>
+                        <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tools for Research</span>
+                        <span className="text-sm sm:text-base font-serif text-[#1a1a1a]">Gemini 3, Perplexity Pro</span>
                      </div>
                 </div>
             </div>
          </div>
       </div>
 
-      {/* Mobile Sticky Navigation - Floating Style */}
-      <div className="md:hidden sticky top-0 z-40 bg-[#F9F9F9]/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
-          <div className="flex overflow-x-auto hide-scrollbar py-[1rem] px-[1.618rem] gap-[1.618rem] items-center">
+      {/* Mobile Sticky Navigation - Positioned below fixed Header */}
+      <div className="md:hidden sticky top-16 sm:top-20 z-40 bg-[#F9F9F9]/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+          <div className="flex overflow-x-auto hide-scrollbar py-3 px-4 gap-4 items-center">
             {sections.map((section) => {
                 const isSectionActive = activeId === section.id || (section.children && section.children.some(c => c.id === activeId));
                 return (
                 <button 
                     key={section.id}
                     onClick={() => scrollToSection(section.id)}
-                    className={`flex items-center gap-[0.382rem] whitespace-nowrap text-[0.618rem] font-medium transition-colors shrink-0 ${isSectionActive ? 'text-[#1a1a1a]' : 'text-gray-500 hover:text-[#1a1a1a]'}`}
+                    className={`flex items-center gap-1.5 whitespace-nowrap text-xs font-medium transition-colors shrink-0 py-1 ${isSectionActive ? 'text-[#1a1a1a] font-bold' : 'text-gray-500 hover:text-[#1a1a1a]'}`}
                 >
-                    <span className={`text-[10px] font-bold transition-colors ${isSectionActive ? 'text-[#3B82F6]' : 'text-[#3B82F6]/40'}`}>{section.number}</span>
+                    <span className={`text-[10px] font-bold transition-colors ${isSectionActive ? 'text-[#3B82F6]' : 'text-[#3B82F6]/50'}`}>{section.number}</span>
                     <span>{section.title}</span>
                 </button>
             )})}
@@ -437,7 +431,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
       </div>
 
       <div className="flex-grow">
-         <div className="max-w-[1400px] mx-auto px-[1.618rem] md:px-[1.618rem] lg:px-[4.236rem] grid grid-cols-1 md:grid-cols-12 gap-[1.618rem] lg:gap-[6.854rem] py-[2.618rem] md:py-[6.854rem] relative">
+         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16 py-8 md:py-16 relative">
             
             {/* Desktop Sidebar Table of Contents */}
             <div className="hidden md:block md:col-span-3 lg:col-span-3">

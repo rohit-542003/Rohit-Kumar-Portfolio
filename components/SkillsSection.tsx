@@ -63,45 +63,45 @@ const SkillsSection: React.FC = () => {
   const knownLanguages = ["C", "Python", "Java", "HTML", "CSS", "JS", "MS Word", "MS PowerPoint", "Github"];
 
   return (
-    <section className="w-full px-[1.618rem] md:px-[4.236rem] pb-[6.854rem] md:pb-[11.09rem] pt-[4.236rem] md:pt-[6.854rem] max-w-[1400px] mx-auto font-onest bg-[#F4F4F4]">
+    <section className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 pt-16 md:pt-28 pb-16 md:pb-28 font-onest bg-[#F4F4F4]">
         
-        {/* Section Header - Aligned with WorkSection */}
-        <div className="mb-[4.236rem] md:mb-[6.854rem]">
-           <h2 className="text-[2.5rem] md:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[0.9]">
+        {/* Section Header */}
+        <div className="mb-10 md:mb-16">
+           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[1.1]">
               Technical <span className="text-gray-400 italic font-serif">proficiency.</span>
            </h2>
-           <div className="w-24 h-[1px] bg-black/10 mt-[2.618rem]"></div>
+           <div className="w-16 sm:w-24 h-[1px] bg-black/10 mt-6 md:mt-8"></div>
         </div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-y-[4.236rem] md:gap-x-[2.618rem] lg:gap-x-[4.236rem]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-16">
             
             {/* Column 1 */}
-            <div className="md:col-span-4 flex flex-col items-start">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-[1.618rem] border-b border-gray-200 pb-[0.618rem] w-full">
+            <div className="flex flex-col items-start">
+                <h3 className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 border-b border-gray-200 pb-2 w-full">
                     Proficient in tools
                 </h3>
-                <div className="flex flex-wrap gap-[0.618rem]">
+                <div className="flex flex-wrap gap-2 sm:gap-2.5">
                     {proficientTools.map(tool => <SkillTag key={tool} label={tool} />)}
                 </div>
             </div>
 
             {/* Column 2 */}
-            <div className="md:col-span-4 flex flex-col items-start">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-[1.618rem] border-b border-gray-200 pb-[0.618rem] w-full">
+            <div className="flex flex-col items-start">
+                <h3 className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 border-b border-gray-200 pb-2 w-full">
                     Tools I work with
                 </h3>
-                <div className="flex flex-wrap gap-[0.618rem]">
+                <div className="flex flex-wrap gap-2 sm:gap-2.5">
                     {workedWithTools.map(tool => <SkillTag key={tool} label={tool} />)}
                 </div>
             </div>
 
             {/* Column 3 */}
-            <div className="md:col-span-4 flex flex-col items-start">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-[1.618rem] border-b border-gray-200 pb-[0.618rem] w-full">
+            <div className="flex flex-col items-start md:col-span-2 lg:col-span-1">
+                <h3 className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 border-b border-gray-200 pb-2 w-full">
                     I know (from college)
                 </h3>
-                <div className="flex flex-wrap gap-[0.618rem]">
+                <div className="flex flex-wrap gap-2 sm:gap-2.5">
                     {knownLanguages.map(tool => <SkillTag key={tool} label={tool} />)}
                 </div>
             </div>

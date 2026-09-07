@@ -33,55 +33,56 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="w-full py-[6.854rem] md:py-[11.09rem] bg-[#F4F4F4] overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-[1.618rem] md:px-[4.236rem] mb-[6.854rem] flex flex-col md:flex-row items-start md:items-end justify-between gap-[1.618rem]">
-        <h2 className="text-[2.5rem] md:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[0.9]">
+    <section className="w-full py-16 md:py-28 bg-[#F4F4F4] overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 mb-10 md:mb-16 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[1.05]">
            What do<br/>
            <span className="text-gray-400 italic font-serif">people say?</span>
         </h2>
         {/* Decorative line */}
-        <div className="hidden md:block w-32 h-[1px] bg-black/10 mb-[1rem]"></div>
+        <div className="hidden md:block w-32 h-[1px] bg-black/10 mb-3"></div>
       </div>
       
       {/* Marquee Container */}
-      <div className="relative w-full overflow-hidden">
+      <div className="relative w-full max-w-full overflow-hidden">
          {/* Gradient Masks for smooth fade effect */}
-         <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r from-[#F4F4F4] via-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
-         <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l from-[#F4F4F4] via-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
+         <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-20 md:w-32 bg-gradient-to-r from-[#F4F4F4] via-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
+         <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-20 md:w-32 bg-gradient-to-l from-[#F4F4F4] via-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
 
-         <div className="flex gap-[1rem] md:gap-[2.618rem] animate-marquee w-max px-[1.618rem] items-stretch hover:[animation-play-state:paused]">
+         <div className="flex gap-4 md:gap-8 animate-marquee w-max px-4 items-stretch hover:[animation-play-state:paused]">
             {/* Triple the list for smooth infinite loop */}
             {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
                <div 
                 key={i} 
-                className="w-[270px] md:w-[480px] bg-white p-[1.618rem] md:p-[2.618rem] rounded-sm border border-gray-200/60 flex flex-col justify-between shrink-0 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:-translate-y-[0.382rem] group select-none"
+                className="w-[280px] sm:w-[360px] md:w-[460px] bg-white p-5 sm:p-7 md:p-8 rounded-xl border border-gray-200/70 flex flex-col justify-between shrink-0 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 group select-none"
                >
                   {/* Quote Content */}
-                  <div className="mb-[1.618rem] md:mb-[2.618rem] relative">
+                  <div className="mb-6 md:mb-8 relative">
                       {/* Decorative Quote Mark */}
-                      <span className="absolute -top-[0.618rem] md:-top-[1rem] -left-[0.382rem] text-5xl md:text-6xl text-[#E86A3E] font-serif opacity-20 font-normal leading-none">“</span>
-                      <p className="relative text-lg md:text-2xl leading-relaxed text-[#1a1a1a] font-serif font-normal pt-[1rem] md:pt-[1.618rem] z-10">
+                      <span className="absolute -top-3 md:-top-4 -left-1 text-4xl md:text-5xl text-[#E86A3E] font-serif opacity-20 font-normal leading-none">“</span>
+                      <p className="relative text-sm sm:text-base md:text-lg leading-relaxed text-[#1a1a1a] font-serif font-normal pt-3 md:pt-4 z-10">
                         {t.quote}
                       </p>
                   </div>
 
                   {/* Author Info */}
-                  <div className="flex items-center gap-[0.618rem] md:gap-[1rem] pt-[1rem] md:pt-[1.618rem] border-t border-gray-100 mt-auto">
+                  <div className="flex items-center gap-3 pt-4 border-t border-gray-100 mt-auto">
                      <img 
                         src={t.image} 
                         alt={t.name} 
-                        className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+                        className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+                        loading="lazy"
                      />
                      <div className="flex-1 min-w-0">
-                        <div className="flex items-baseline justify-between mb-1">
-                            <h4 className="font-bold text-xs md:text-sm uppercase tracking-wider text-[#1a1a1a] font-onest truncate pr-2">
+                        <div className="flex items-baseline justify-between mb-0.5">
+                            <h4 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-[#1a1a1a] font-onest truncate pr-2">
                                 {t.name}
                             </h4>
-                            <span className="font-serif italic text-base md:text-lg text-[#1a1a1a]/40 tracking-wide">
+                            <span className="font-serif italic text-sm md:text-base text-[#1a1a1a]/40 tracking-wide shrink-0">
                                 {t.relation}
                             </span>
                         </div>
-                        <p className="text-[10px] md:text-xs text-gray-500 font-medium font-onest truncate">
+                        <p className="text-[10px] sm:text-xs text-gray-500 font-medium font-onest truncate">
                             {t.role}
                         </p>
                      </div>

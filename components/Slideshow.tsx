@@ -1,23 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 // Manual imports for the slideshow images
-import ss1 from '../img/ss1.png';
 import ss2 from '../img/ss2.png';
 import ss3 from '../img/ss3.png';
 import ss4 from '../img/ss4.png';
 import ss5 from '../img/ss5.png';
 
-const slideImages = [ss1, ss2, ss3, ss4, ss5];
+const slideImages = [ss2, ss3, ss4, ss5];
 
 const Slideshow: React.FC = () => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [isHovered, setIsHovered] = useState(false);
+    const [isCursorDragging, setIsCursorDragging] = useState(false);
 
-    // Duplicate the images to create a seamless loop
-    const displayImages = [...slideImages, ...slideImages];
+    const trackRef = useRef<HTMLDivElement>(null);
+    const currentTranslateRef = useRef<number>(-1500);
+    const currentSpeedRef = useRef<number>(1.2);
+    const isDraggingRef = useRef<boolean>(false);
+    const startXRef = useRef<number>(0);
+    const dragStartTranslateRef = useRef<number>(0);
+    const hasMovedRef = useRef<boolean>(false);
+    const animationFrameIdRef = useRef<number | null>(null);
+
+    // Tripled for seamless wrap
+    const displayImages = [...slideImages, ...slideImages, ...slideImages];
 
     const openLightbox = (src: string) => {
+        if (hasMovedRef.current) return;
         setSelectedImage(src);
-        // Prevent scroll when lightbox is open
         document.body.style.overflow = 'hidden';
     };
 
@@ -26,99 +36,206 @@ const Slideshow: React.FC = () => {
         document.body.style.overflow = 'auto';
     };
 
+    // Smooth JavaScript animation loop (avoids CSS animation duration jump glitch)
+    useEffect(() => {
+        const track = trackRef.current;
+        if (!track) return;
+
+        const setupInitialPosition = () => {
+            const loopWidth = track.scrollWidth / 3;
+            if (loopWidth > 0 && currentTranslateRef.current === -1500) {
+                currentTranslateRef.current = -loopWidth;
+            }
+        };
+        setupInitialPosition();
+
+        const animate = () => {
+            const loopWidth = track.scrollWidth / 3;
+
+            if (loopWidth > 0) {
+                if (!isDraggingRef.current) {
+                    // Fast by default (1.25), smoothly decelerates to gentle drift (0.28) on hover
+                    const targetSpeed = isHovered ? 0.28 : 1.25;
+                    currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * 0.08;
+                    currentTranslateRef.current -= currentSpeedRef.current;
+                }
+
+                // Seamless loop wrap
+                if (currentTranslateRef.current <= -loopWidth * 2) {
+                    currentTranslateRef.current += loopWidth;
+                } else if (currentTranslateRef.current >= 0) {
+                    currentTranslateRef.current -= loopWidth;
+                }
+
+                track.style.transform = `translateX(${currentTranslateRef.current}px)`;
+            }
+
+            animationFrameIdRef.current = requestAnimationFrame(animate);
+        };
+
+        animationFrameIdRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            if (animationFrameIdRef.current) {
+                cancelAnimationFrame(animationFrameIdRef.current);
+            }
+        };
+    }, [isHovered]);
+
+    // Mouse drag handlers
+    const handleMouseDown = (e: React.MouseEvent) => {
+        isDraggingRef.current = true;
+        setIsCursorDragging(true);
+        startXRef.current = e.clientX;
+        dragStartTranslateRef.current = currentTranslateRef.current;
+        hasMovedRef.current = false;
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDraggingRef.current || !trackRef.current) return;
+        const deltaX = e.clientX - startXRef.current;
+        if (Math.abs(deltaX) > 5) {
+            hasMovedRef.current = true;
+        }
+        const loopWidth = trackRef.current.scrollWidth / 3;
+        let newTranslate = dragStartTranslateRef.current + deltaX;
+
+        if (loopWidth > 0) {
+            while (newTranslate >= 0) newTranslate -= loopWidth;
+            while (newTranslate <= -loopWidth * 2) newTranslate += loopWidth;
+        }
+
+        currentTranslateRef.current = newTranslate;
+        trackRef.current.style.transform = `translateX(${newTranslate}px)`;
+    };
+
+    const handleMouseUpOrLeave = () => {
+        isDraggingRef.current = false;
+        setIsCursorDragging(false);
+    };
+
+    // Touch drag handlers
+    const handleTouchStart = (e: React.TouchEvent) => {
+        if (e.touches.length === 0) return;
+        isDraggingRef.current = true;
+        setIsCursorDragging(true);
+        startXRef.current = e.touches[0].clientX;
+        dragStartTranslateRef.current = currentTranslateRef.current;
+        hasMovedRef.current = false;
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isDraggingRef.current || !trackRef.current || e.touches.length === 0) return;
+        const deltaX = e.touches[0].clientX - startXRef.current;
+        if (Math.abs(deltaX) > 5) {
+            hasMovedRef.current = true;
+        }
+        const loopWidth = trackRef.current.scrollWidth / 3;
+        let newTranslate = dragStartTranslateRef.current + deltaX;
+
+        if (loopWidth > 0) {
+            while (newTranslate >= 0) newTranslate -= loopWidth;
+            while (newTranslate <= -loopWidth * 2) newTranslate += loopWidth;
+        }
+
+        currentTranslateRef.current = newTranslate;
+        trackRef.current.style.transform = `translateX(${newTranslate}px)`;
+    };
+
+    const handleTouchEnd = () => {
+        isDraggingRef.current = false;
+        setIsCursorDragging(false);
+    };
+
     return (
-        <section className="w-full overflow-hidden py-[4.236rem] md:py-[6.854rem] bg-transparent flex flex-col items-center">
-            <div className="max-w-[1400px] w-full px-[1.618rem] md:px-[4.236rem] mb-[2.618rem]">
-                <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Some of my Designs</h4>
+        <section className="w-full overflow-hidden py-16 md:py-24 bg-transparent flex flex-col items-center select-none">
+            {/* Standard Header matching other sections */}
+            <div className="max-w-[1400px] w-full px-4 sm:px-6 md:px-16 mb-8 md:mb-12">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[1.1]">
+                    Design <span className="text-gray-400 italic font-serif">Explorations.</span>
+                </h2>
+                <div className="w-16 sm:w-24 h-[1px] bg-black/10 mt-6 md:mt-8"></div>
             </div>
             
-            <div className="relative w-full flex overflow-hidden group">
-                {/* Continuous Ticker Animation */}
-                <div className="flex gap-[1rem] md:gap-[2.618rem] animate-ticker hover:[animation-play-state:paused] py-[0.618rem]">
+            {/* Draggable & Auto-scrolling Track */}
+            <div 
+                className={`relative w-full flex overflow-hidden py-4 ${isCursorDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUpOrLeave}
+                onMouseLeave={() => {
+                    handleMouseUpOrLeave();
+                    setIsHovered(false);
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
+                <div 
+                    ref={trackRef}
+                    className="flex gap-4 md:gap-8 will-change-transform py-2 px-4"
+                >
                     {displayImages.map((src, idx) => (
                         <div 
                             key={idx} 
                             onClick={() => openLightbox(src)}
-                            className="relative flex-shrink-0 w-[240px] md:w-[500px] aspect-[16/10] rounded-2xl overflow-hidden border border-black/5 shadow-md transform transition-all duration-500 hover:scale-[1.02] hover:shadow-xl group/card cursor-pointer bg-white"
+                            className="relative flex-shrink-0 w-[260px] sm:w-[380px] md:w-[480px] aspect-[16/10] rounded-2xl overflow-hidden border border-black/5 shadow-md transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer bg-white group/card"
                         >
-                            {/* Adjusted padding to make them look less "zoomed out" as requested */}
-                            <div className="w-full h-full p-[0.382rem] md:p-[1rem] flex items-center justify-center">
+                            <div className="w-full h-full p-2 sm:p-3 flex items-center justify-center">
                                 <img 
                                     src={src} 
                                     alt={`Design slide ${idx + 1}`} 
-                                    className="max-w-full max-h-full object-contain"
+                                    draggable={false}
+                                    className="max-w-full max-h-full object-contain pointer-events-none select-none"
                                 />
                             </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Fade overlays on edges */}
-                <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-[#F4F4F4] to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-[#F4F4F4] to-transparent z-10 pointer-events-none"></div>
+                {/* Subtle Edge Vignettes */}
+                <div className="absolute inset-y-0 left-0 w-3 sm:w-6 md:w-8 bg-gradient-to-r from-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute inset-y-0 right-0 w-3 sm:w-6 md:w-8 bg-gradient-to-l from-[#F4F4F4]/80 to-transparent z-10 pointer-events-none"></div>
             </div>
 
-            {/* Lightbox Modal - Further reduced size to avoid screen-filling as requested */}
+            {/* Lightbox Modal */}
             {selectedImage && (
                 <div 
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md animate-fadeIn cursor-pointer"
                     onClick={closeLightbox}
                 >
-                    <div className="absolute top-6 right-8 text-white text-[10px] font-bold uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity">
+                    <div className="absolute top-6 right-8 text-white text-xs font-bold uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity">
                         Close [ESC]
                     </div>
                     
                     <div 
-                        className="relative max-w-[65vw] max-h-[55vh] transform animate-zoomIn flex items-center justify-center p-[1rem]"
+                        className="relative max-w-[85vw] max-h-[85vh] transform animate-zoomIn flex items-center justify-center p-4"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <img 
                             src={selectedImage} 
                             alt="Design Close Up" 
-                            className="w-auto h-auto max-w-full max-h-full object-contain shadow-2xl rounded-sm border border-white/5"
-                            style={{ display: 'block' }}
+                            className="w-auto h-auto max-w-full max-h-full object-contain shadow-2xl rounded-xl border border-white/10"
                         />
                     </div>
                 </div>
             )}
 
             <style>{`
-                @keyframes ticker {
-                    0% {
-                        transform: translateX(0);
-                    }
-                    100% {
-                        transform: translateX(calc(-50% - 0.5rem)); /* adjustment for gap (0.5 * 1rem) */
-                    }
-                }
                 @keyframes fadeIn {
                     from { opacity: 0; }
                     to { opacity: 1; }
                 }
                 @keyframes zoomIn {
-                    from { opacity: 0; transform: scale(0.9) translateY(20px); }
-                    to { opacity: 1; transform: scale(1) translateY(0); }
+                    from { opacity: 0; transform: scale(0.92); }
+                    to { opacity: 1; transform: scale(1); }
                 }
                 .animate-fadeIn {
-                    animation: fadeIn 0.3s ease-out forwards;
+                    animation: fadeIn 0.25s ease-out forwards;
                 }
                 .animate-zoomIn {
-                    animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                }
-                .animate-ticker {
-                    animation: ticker 45s linear infinite;
-                    display: flex;
-                    width: max-content;
-                }
-                @media (min-width: 768px) {
-                    @keyframes ticker {
-                        0% {
-                            transform: translateX(0);
-                        }
-                        100% {
-                            transform: translateX(calc(-50% - 1.309rem)); /* adjustment for gap (0.5 * 2.618rem) */
-                        }
-                    }
+                    animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
                 }
             `}</style>
         </section>

@@ -44,8 +44,8 @@ const ContactPage = () => {
               <div className="flex flex-col gap-8">
                 <div>
                   <span className="block text-xs font-bold uppercase tracking-widest text-[#1a1a1a]/50 mb-2">Email</span>
-                  <a href="mailto:rohitkumarp2003@gmail.com" className="text-xl md:text-2xl font-medium text-[#1a1a1a] hover:text-[#E86A3E] transition-colors">
-                    rohitkumarp2003@gmail.com
+                  <a href="mailto:uxrohitkumar@gmail.com" className="text-xl md:text-2xl font-medium text-[#1a1a1a] hover:text-[#E86A3E] transition-colors">
+                    uxrohitkumar@gmail.com
                   </a>
                 </div>
                 

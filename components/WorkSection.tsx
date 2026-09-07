@@ -1,141 +1,167 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import thumbnailGPay from '../img/thumbnail_gpay.png';
+import thumbnailTypeMe from '../img/thumbnail_typeme.png';
+import thumbnailDrixMedia from '../img/thumbnail_drixmedia.gif';
+import thumbnailFlytSocial from '../img/thumbnail_flytsocial.png';
+import thumbnailRelax from '../img/thumbnail_relax.png';
+import thumbnailSolliquo from '../img/thumbnail_solliquo.png';
+import thumbnailFirstOX from '../img/thumbnail_FirstOX.gif';
+import { ArrowRightIcon } from './Icons';
 
-const projects = [
+export interface ProjectItem {
+  id: number;
+  title: string;
+  meta: string;
+  type: string;
+  imageSrc: string;
+  fitMode: 'contain' | 'cover';
+  alignMode?: 'bottom' | 'center';
+  bgColor?: string;
+  centerText?: string;
+  linkUrl: string;
+  linkLabel: string;
+  cursorLabel?: string;
+  isExternal: boolean;
+}
+
+const projects: ProjectItem[] = [
   {
     id: 1,
     title: "Seamless split and pay",
     meta: "GOOGLE PAY • UX CASE STUDY",
     type: "image",
     imageSrc: thumbnailGPay,
+    fitMode: "cover",
+    bgColor: "bg-gray-100",
     centerText: "",
+    linkUrl: "https://www.figma.com/design/RdwSrdq0Gdd3VuA3PdoMO4/GooglePay-redesign?node-id=113-3979",
+    linkLabel: "Figma File",
+    cursorLabel: "View Case Study",
+    isExternal: false
+  },
+  {
+    id: 2,
+    title: "TypeMe",
+    meta: "TYPEME",
+    type: "image",
+    imageSrc: thumbnailTypeMe,
+    fitMode: "contain",
+    bgColor: "bg-black",
+    linkUrl: "https://typeme.space",
+    linkLabel: "typeme.space",
+    cursorLabel: "View Project",
+    isExternal: true
+  },
+  {
+    id: 3,
+    title: "Drix Media",
+    meta: "DRIX MEDIA",
+    type: "image",
+    imageSrc: thumbnailDrixMedia,
+    fitMode: "contain",
+    bgColor: "bg-black",
+    linkUrl: "https://drixmedia.in",
+    linkLabel: "drixmedia.in",
+    cursorLabel: "View Project",
+    isExternal: true
+  },
+  {
+    id: 4,
+    title: "Flyt Social",
+    meta: "FLYTSOCIAL",
+    type: "image",
+    imageSrc: thumbnailFlytSocial,
+    fitMode: "contain",
+    bgColor: "bg-black",
+    linkUrl: "https://flytsocial.com",
+    linkLabel: "flytsocial.com",
+    cursorLabel: "View Project",
+    isExternal: true
+  },
+  {
+    id: 5,
+    title: "Relax Infinity",
+    meta: "RELAX INFINITY • AI WELLNESS APP",
+    type: "image",
+    imageSrc: thumbnailRelax,
+    fitMode: "contain",
+    bgColor: "bg-black",
+    linkUrl: "https://www.figma.com/design/eqISMff87WDCTgsunEDASs/Relax-Infinity?node-id=0-1&t=HZfzLnuLPANcwd9r-1",
+    linkLabel: "Figma File",
+    cursorLabel: "View Project",
+    isExternal: false
+  },
+  {
+    id: 6,
+    title: "Solliquo",
+    meta: "SOULLIQO • E-COMMERCE",
+    type: "image",
+    imageSrc: thumbnailSolliquo,
+    fitMode: "contain",
+    alignMode: "bottom",
+    bgColor: "bg-black",
+    linkUrl: "https://www.figma.com/design/rh3IYmRYjCcbO2AUPgmZEB/Soulliqo?node-id=0-1&t=jQniqtUbVSdnVjre-1",
+    linkLabel: "Figma File",
+    cursorLabel: "View Project",
+    isExternal: false
+  },
+  {
+    id: 7,
+    title: "FirstOX Studio",
+    meta: "FIRSTOX STUDIO",
+    type: "image",
+    imageSrc: thumbnailFirstOX,
+    fitMode: "contain",
+    bgColor: "bg-black",
+    linkUrl: "#",
+    linkLabel: "View Project",
+    cursorLabel: "View Project",
+    isExternal: true
   }
 ];
 
-// Custom HTML Thumbnail Component for Google Pay Case Study
-const GooglePayThumbnail = () => (
-  <div className="absolute inset-0 bg-[#F0F9FF] flex flex-col items-center justify-center overflow-hidden select-none pointer-events-none">
-    {/* Background Decor */}
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-50/50 rounded-full blur-3xl"></div>
-
-    {/* Main Phone/Card Graphic */}
-    <div className="relative z-10 w-64 md:w-80 bg-white rounded-[2rem] shadow-2xl border-4 border-gray-100 p-[1rem] transform transition-transform duration-700 group-hover:scale-105 group-hover:-translate-y-[0.382rem]">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-[1.618rem] px-[0.618rem]">
-        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-          <div className="w-4 h-4 bg-blue-600 rounded-full"></div>
-        </div>
-        <div className="h-2 w-20 bg-gray-100 rounded-full"></div>
-      </div>
-
-      {/* Split UI Mockup */}
-      <div className="space-y-3">
-        <div className="h-16 w-full bg-gray-50 rounded-xl flex items-center px-4 border border-gray-100">
-          <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xs font-bold">SP</div>
-          <div className="ml-3 flex-1">
-            <div className="h-2 w-16 bg-gray-200 rounded mb-1.5"></div>
-            <div className="h-1.5 w-10 bg-gray-100 rounded"></div>
-          </div>
-          <div className="text-xs font-bold text-gray-400">₹ 200</div>
-        </div>
-
-        {/* Active Split Item */}
-        <div className="h-20 w-full bg-blue-50 rounded-xl flex items-center px-4 border border-blue-200 relative overflow-hidden">
-          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold z-10">Me</div>
-          <div className="ml-3 flex-1 z-10">
-            <div className="h-2 w-20 bg-blue-200 rounded mb-1.5"></div>
-            <div className="h-4 w-12 bg-blue-100 rounded flex items-center justify-center text-[8px] font-bold text-blue-600 uppercase">Splitting</div>
-          </div>
-          {/* Checkmark */}
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-[10px]">✓</div>
-        </div>
-      </div>
-
-      {/* Floating Action Button */}
-      <div className="absolute -bottom-[1rem] left-1/2 -translate-x-1/2 bg-[#1a73e8] text-white px-[1.618rem] py-[0.618rem] rounded-full shadow-lg shadow-blue-200 text-xs font-bold tracking-wide flex items-center gap-[0.618rem]">
-        <span>Pay Now</span>
-        <span className="opacity-70">→</span>
-      </div>
-    </div>
-
-    {/* Text Overlay */}
-    <div className="absolute bottom-[2.618rem] md:bottom-[4.236rem] z-20 text-center">
-      <h3 className="text-2xl md:text-3xl font-bold text-blue-900 mb-[0.382rem]">Seamless</h3>
-      <h3 className="text-xl md:text-2xl font-medium text-blue-600/80">Split & Pay</h3>
-    </div>
-  </div>
-);
-
-const ProjectCard: React.FC<{
-  project: any,
-  onClick: () => void
+const CaseStudyCard: React.FC<{
+  project: ProjectItem;
+  onClick: () => void;
 }> = ({ project, onClick }) => {
-
-  const renderCardContent = () => {
-    switch (project.type) {
-      case 'gradient':
-        return (
-          <>
-            <div className={`absolute inset-0 ${project.gradientClass}`}>
-              <div className="absolute inset-0 bg-white/10" />
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center p-[1rem]">
-              <h3 className="text-3xl md:text-5xl lg:text-5xl font-medium tracking-tight text-white text-center">
-                {project.centerText}
-              </h3>
-            </div>
-          </>
-        );
-
-      case 'image':
-        // Fallback legacy image renderer
-        return (
-          <>
-            <img
-              src={project.imageSrc}
-              alt={project.title}
-              className="absolute inset-0 w-full h-full object-cover bg-gray-200 transition-transform duration-700 ease-in-out group-hover:scale-105"
-            />
-          </>
-        );
-
-      case 'custom':
-        return <GooglePayThumbnail />;
-
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="group cursor-none flex flex-col h-full" onClick={onClick}>
       <div
-        className="relative w-full aspect-[4/3] md:aspect-[1.4/1] overflow-hidden rounded-sm mb-[1.618rem] transition-all duration-500 ease-out shadow-sm md:group-hover:-translate-y-[0.382rem] md:group-hover:shadow-md bg-gray-100"
+        className="relative w-full aspect-[4/3] md:aspect-[1.4/1] overflow-hidden mb-1 transition-all duration-500 ease-out shadow-sm md:group-hover:-translate-y-1.5 md:group-hover:shadow-xl border border-black/5 bg-gray-100 rounded-2xl"
         data-cursor-type="text"
-        data-cursor-label="View Case Study"
+        data-cursor-label={project.cursorLabel || "View Case Study"}
       >
-        {renderCardContent()}
+        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+          <img
+            src={project.imageSrc}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+            loading="lazy"
+          />
+        </div>
       </div>
 
-      <div className="mt-auto">
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-[1rem] mb-[1.618rem]">
-          <a 
-            href="https://www.figma.com/design/RdwSrdq0Gdd3VuA3PdoMO4/GooglePay-redesign?node-id=113-3979" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-[0.618rem] px-[1rem] py-[0.618rem] bg-[#18A0FB]/10 text-[#18A0FB] rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-[#18A0FB] hover:text-white transition-all duration-300 border border-[#18A0FB]/20 w-fit"
+      <div className="mt-0">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-4">
+          <a
+            href={project.linkUrl}
+            target={project.isExternal ? "_blank" : undefined}
+            rel={project.isExternal ? "noopener noreferrer" : undefined}
+            onClick={(e) => {
+              if (!project.isExternal || project.linkUrl === '#') {
+                e.preventDefault();
+                e.stopPropagation();
+                onClick();
+              } else {
+                e.stopPropagation();
+              }
+            }}
+            className="group inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#18A0FB] hover:text-[#0b79c3] transition-colors"
           >
-            <svg className="w-3 h-3" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 28.5C19 25.9834 20.0009 23.57 21.7825 21.7885C23.564 20.0069 25.9798 19.006 28.5 19.006C31.0202 19.006 33.436 20.0069 35.2175 21.7885C36.9991 23.57 38 25.9834 38 28.5C38 31.0166 36.9991 33.43 35.2175 35.2115C33.436 36.9931 31.0202 37.994 28.5 37.994C25.9798 37.994 23.564 36.9931 21.7825 35.2115C20.0009 33.43 19 31.0166 19 28.5Z" fill="currentColor"/>
-                <path d="M19 9.5C19 6.98343 20.0009 4.56996 21.7825 2.78848C23.564 1.007 25.9798 0.00604248 28.5 0.00604248C31.0202 0.00604248 33.436 1.007 35.2175 2.78848C36.9991 4.56996 38 6.98343 38 9.5C38 12.0166 36.9991 14.43 35.2175 16.2115C33.436 17.993 31.0202 18.994 28.5 18.994C25.9798 18.994 23.564 17.993 21.7825 16.2115C20.0009 14.43 19 12.0166 19 9.5Z" fill="currentColor"/>
-                <path d="M0 9.5C0 12.0166 1.00089 14.43 2.78248 16.2115C4.56407 17.993 6.97981 18.994 9.5 18.994C12.0202 18.994 14.4359 17.993 16.2175 16.2115C17.9991 14.43 19 12.0166 19 9.5C19 6.98343 17.9991 4.57 16.2175 2.78852C14.4359 1.00704 12.0202 0.00608253 9.5 0.00608253C6.97981 0.00608253 4.56407 1.00704 2.78248 2.78852C1.00089 4.57 0 6.98343 0 9.5Z" fill="currentColor"/>
-                <path d="M0 28.5C0 31.0166 1.00089 33.43 2.78248 35.2115C4.56407 36.9931 6.97981 37.994 9.5 37.994C12.0202 37.994 14.4359 36.9931 16.2175 35.2115C17.9991 33.43 19 31.0166 19 28.5C19 25.9834 17.9991 23.57 16.2175 21.7885C14.4359 20.007 12.0202 19.006 9.5 19.006C6.97981 19.006 4.56407 20.007 2.78248 21.7885C1.00089 23.57 0 25.9834 0 28.5Z" fill="currentColor"/>
-                <path d="M0 47.5C0 50.0166 1.00089 52.43 2.78248 54.2115C4.56407 55.9931 6.97981 56.994 9.5 56.994C12.0202 56.994 14.4359 55.9931 16.2175 54.2115C17.9991 52.43 19 50.0166 19 47.5V38H9.5C6.97981 38 4.56407 39.001 2.78248 40.7825C1.00089 42.5641 0 44.9798 0 47.5Z" fill="currentColor"/>
-            </svg>
-            Figma File 
+            {project.linkLabel}
+            <ArrowRightIcon className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-45" />
           </a>
-          <span className="text-xs font-bold text-gray-400 uppercase tracking-[0.15em] shrink-0">
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] shrink-0">
             {project.meta}
           </span>
         </div>
@@ -149,31 +175,347 @@ interface WorkSectionProps {
 }
 
 const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isCursorDragging, setIsCursorDragging] = useState(false);
+
+  // Drag & Motion refs
+  const currentTranslateRef = useRef<number>(-1200);
+  const isDraggingRef = useRef<boolean>(false);
+  const startXRef = useRef<number>(0);
+  const dragStartTranslateRef = useRef<number>(0);
+  const hasMovedRef = useRef<boolean>(false);
+  const animationFrameIdRef = useRef<number | null>(null);
+
+  const caseStudyProject = projects[0];
+  const selectedWorkProjects = projects.slice(1);
+  // Tripled list for seamless infinite loop
+  const displayShowcase = [...selectedWorkProjects, ...selectedWorkProjects, ...selectedWorkProjects];
+
   const handleCardClick = (id: number) => {
+    // If user dragged more than threshold, ignore click
+    if (hasMovedRef.current) return;
     if (onProjectClick) {
       onProjectClick(id);
     }
   };
 
-  return (
-    <section id="work" className="w-full px-[1.618rem] md:px-[4.236rem] pb-[6.854rem] md:pb-[11.09rem] max-w-[1400px] mx-auto">
-      <div className="mb-[2.618rem] md:mb-[4.236rem] pt-[4.236rem] md:pt-[6.854rem]">
-        <h2 className="text-[2.5rem] md:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[0.9]">
-          Selected <span className="text-gray-400 italic font-serif">Work.</span>
-        </h2>
-        <div className="w-24 h-[1px] bg-black/10 mt-[2.618rem]"></div>
-      </div>
+  const currentSpeedRef = useRef<number>(1.35);
 
-      <div className="flex flex-col gap-[4.236rem] md:grid md:grid-cols-2 md:gap-x-[4.236rem]">
-        {projects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            onClick={() => handleCardClick(project.id)}
+  // Continuous loop + drag physics
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    // Set initial position in middle segment
+    const setupInitialPosition = () => {
+      const loopWidth = track.scrollWidth / 3;
+      if (loopWidth > 0 && currentTranslateRef.current === -1200) {
+        currentTranslateRef.current = -loopWidth;
+      }
+    };
+    setupInitialPosition();
+
+    const animate = () => {
+      const loopWidth = track.scrollWidth / 3;
+
+      if (loopWidth > 0) {
+        // Smoothly interpolate speed: fast default (1.35), slow on hover (0.35)
+        if (!isDraggingRef.current) {
+          const targetSpeed = isHovered ? 0.35 : 1.35;
+          currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * 0.08;
+          currentTranslateRef.current += currentSpeedRef.current;
+        }
+
+        // Seamless wrap boundaries
+        if (currentTranslateRef.current >= 0) {
+          currentTranslateRef.current -= loopWidth;
+        } else if (currentTranslateRef.current <= -loopWidth * 2) {
+          currentTranslateRef.current += loopWidth;
+        }
+
+        track.style.transform = `translateX(${currentTranslateRef.current}px)`;
+      }
+
+      animationFrameIdRef.current = requestAnimationFrame(animate);
+    };
+
+    animationFrameIdRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
+    };
+  }, [isHovered]);
+
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDraggingRef.current = true;
+    setIsCursorDragging(true);
+    startXRef.current = e.clientX;
+    dragStartTranslateRef.current = currentTranslateRef.current;
+    hasMovedRef.current = false;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !trackRef.current) return;
+    const deltaX = e.clientX - startXRef.current;
+    if (Math.abs(deltaX) > 5) {
+      hasMovedRef.current = true;
+    }
+    const loopWidth = trackRef.current.scrollWidth / 3;
+    let newTranslate = dragStartTranslateRef.current + deltaX;
+
+    if (loopWidth > 0) {
+      while (newTranslate >= 0) newTranslate -= loopWidth;
+      while (newTranslate <= -loopWidth * 2) newTranslate += loopWidth;
+    }
+
+    currentTranslateRef.current = newTranslate;
+    trackRef.current.style.transform = `translateX(${newTranslate}px)`;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDraggingRef.current = false;
+    setIsCursorDragging(false);
+  };
+
+  // Touch drag handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 0) return;
+    isDraggingRef.current = true;
+    setIsCursorDragging(true);
+    startXRef.current = e.touches[0].clientX;
+    dragStartTranslateRef.current = currentTranslateRef.current;
+    hasMovedRef.current = false;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDraggingRef.current || !trackRef.current || e.touches.length === 0) return;
+    const deltaX = e.touches[0].clientX - startXRef.current;
+    if (Math.abs(deltaX) > 5) {
+      hasMovedRef.current = true;
+    }
+    const loopWidth = trackRef.current.scrollWidth / 3;
+    let newTranslate = dragStartTranslateRef.current + deltaX;
+
+    if (loopWidth > 0) {
+      while (newTranslate >= 0) newTranslate -= loopWidth;
+      while (newTranslate <= -loopWidth * 2) newTranslate += loopWidth;
+    }
+
+    currentTranslateRef.current = newTranslate;
+    trackRef.current.style.transform = `translateX(${newTranslate}px)`;
+  };
+
+  const handleTouchEnd = () => {
+    isDraggingRef.current = false;
+    setIsCursorDragging(false);
+  };
+
+  return (
+    <>
+      {/* Featured UX Case Study Section */}
+      <section id="case-study" className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 pt-16 md:pt-28 pb-8 md:pb-12">
+        <div className="mb-10 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[1.1]">
+            Featured <span className="text-gray-400 italic font-serif">Case Study.</span>
+          </h2>
+          <div className="w-16 sm:w-24 h-[1px] bg-black/10 mt-6 md:mt-8"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+          <CaseStudyCard
+            project={caseStudyProject}
+            onClick={() => handleCardClick(caseStudyProject.id)}
           />
-        ))}
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* Selected Work Section - Interactive Draggable 3D Carousel (Upright & Right-Moving) */}
+      <section id="work" className="w-full max-w-full overflow-hidden bg-transparent py-16 md:py-24 relative select-none">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 mb-8 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[1.1]">
+            Selected <span className="text-gray-400 italic font-serif">Work.</span>
+          </h2>
+          <div className="w-16 sm:w-24 h-[1px] bg-black/10 mt-6 md:mt-8"></div>
+        </div>
+
+        {/* 3D Carousel Stage */}
+        <div 
+          className={`relative w-full py-10 md:py-16 overflow-hidden flex items-center justify-center ${isCursorDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={() => {
+            handleMouseUpOrLeave();
+            setIsHovered(false);
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Ultra Minimal Edge Vignettes */}
+          <div className="absolute inset-y-0 left-0 w-3 sm:w-6 md:w-8 bg-gradient-to-r from-[#F4F4F4]/80 to-transparent z-30 pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-3 sm:w-6 md:w-8 bg-gradient-to-l from-[#F4F4F4]/80 to-transparent z-30 pointer-events-none"></div>
+
+          {/* 3D Viewport with Perspective */}
+          <div className="iso-viewport w-full overflow-visible py-4">
+            <div 
+              ref={trackRef}
+              className="iso-carousel-track"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              {displayShowcase.map((project, index) => {
+                return (
+                  <div
+                    key={`${project.id}-${index}`}
+                    onClick={() => handleCardClick(project.id)}
+                    className="iso-card-container group"
+                    style={{
+                      zIndex: index + 1
+                    }}
+                    data-cursor-type="text"
+                    data-cursor-label={project.cursorLabel || "View Project"}
+                  >
+                    {/* The 3D Mockup Card (Upright Standing & Right-Faced) */}
+                    <div className="iso-card-3d">
+                      {/* Top Glass/Gloss Reflection Bar */}
+                      <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-white/25 via-white/10 to-transparent z-20 pointer-events-none rounded-t-[14px]"></div>
+
+                      {/* Card Content / Project Screenshot */}
+                      <div className={`w-full h-full ${project.bgColor || 'bg-[#111]'} relative overflow-hidden rounded-[14px] flex ${project.alignMode === 'bottom' ? 'items-end justify-center' : 'items-center justify-center'}`}>
+                        <img
+                          src={project.imageSrc}
+                          alt={project.title}
+                          draggable={false}
+                          className={`w-full transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none select-none ${
+                            project.fitMode === 'contain'
+                              ? `object-contain ${project.alignMode === 'bottom' ? 'object-bottom p-3 pb-0' : 'h-full p-3'}`
+                              : `h-full object-cover ${project.alignMode === 'bottom' ? 'object-bottom' : ''}`
+                          }`}
+                          loading="lazy"
+                        />
+                        
+                        {/* Subtle ambient shadow over inactive cards */}
+                        <div className="absolute inset-0 bg-black/15 group-hover:bg-black/0 transition-colors duration-500 pointer-events-none"></div>
+                      </div>
+
+                      {/* Floating Interactive Project Pill on Hover */}
+                      <div className="iso-badge absolute -bottom-14 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50 transform group-hover:translate-y-0 translate-y-3">
+                        <div className="bg-[#111116]/95 backdrop-blur-md text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-full shadow-2xl border border-white/20 flex items-center gap-2.5">
+                          <span className="font-bold tracking-tight">{project.title}</span>
+                          <span className="w-1 h-1 rounded-full bg-white/40"></span>
+                          <span className="text-gray-300 text-[10px] uppercase font-mono tracking-wider">{project.meta}</span>
+                          <span className="text-[#18A0FB] text-xs">↗</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <style>{`
+        /* Isometric Stage Perspective */
+        .iso-viewport {
+          perspective: 2000px;
+          perspective-origin: 50% 50%;
+          transform-style: preserve-3d;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
+
+        /* Seamless Conveyor / Drag Track */
+        .iso-carousel-track {
+          display: flex;
+          align-items: center;
+          width: max-content;
+          transform-style: preserve-3d;
+          padding: 30px 20px 60px;
+          will-change: transform;
+          user-select: none;
+        }
+
+        /* Individual Card Container with Subtle Spacing */
+        .iso-card-container {
+          position: relative;
+          flex-shrink: 0;
+          width: 270px;
+          height: 175px;
+          margin-left: -40px;
+          transform-style: preserve-3d;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .iso-card-container:first-child {
+          margin-left: 10px;
+        }
+
+        @media (min-width: 640px) {
+          .iso-card-container {
+            width: 360px;
+            height: 230px;
+            margin-left: -50px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .iso-card-container {
+            width: 470px;
+            height: 300px;
+            margin-left: -70px;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .iso-card-container {
+            width: 540px;
+            height: 340px;
+            margin-left: -90px;
+          }
+        }
+
+        /* Upright Standing Right-Faced 3D Mockup Card */
+        .iso-card-3d {
+          width: 100%;
+          height: 100%;
+          border-radius: 16px;
+          position: relative;
+          background: #121217;
+          border: 1.5px solid rgba(255, 255, 255, 0.18);
+          transform: rotateY(45deg) rotateX(0deg) rotateZ(0deg);
+          transform-style: preserve-3d;
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+          box-shadow:
+            15px 20px 35px -5px rgba(0, 0, 0, 0.28),
+            5px 8px 15px -3px rgba(0, 0, 0, 0.16),
+            inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        /* Hover Elevation - Pops out forward while standing upright */
+        .iso-card-container:hover {
+          z-index: 99999 !important;
+        }
+
+        .iso-card-container:hover .iso-card-3d {
+          transform: rotateY(16deg) rotateX(0deg) rotateZ(0deg) translateZ(75px) translateY(-18px) scale(1.04);
+          border-color: rgba(255, 255, 255, 0.5);
+          box-shadow:
+            25px 35px 60px -8px rgba(0, 0, 0, 0.38),
+            8px 15px 25px -4px rgba(0, 0, 0, 0.2),
+            0 0 20px rgba(255, 255, 255, 0.15),
+            inset 0 1px 2px rgba(255, 255, 255, 0.4);
+        }
+      `}</style>
+    </>
   );
 };
 

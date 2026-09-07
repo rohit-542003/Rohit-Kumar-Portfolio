@@ -3,7 +3,11 @@ import React, { useRef, useState } from 'react';
 // Using local image from img folder
 import IMAGE_URL from '../img/me.jpg';
 
-const FocusImage: React.FC = () => {
+interface FocusImageProps {
+  className?: string;
+}
+
+const FocusImage: React.FC<FocusImageProps> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [position, setPosition] = useState({ x: 25, y: 30 }); // Initial design position in %
@@ -63,7 +67,7 @@ const FocusImage: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[17.944rem] aspect-[1/1.618] mx-auto md:mr-0 select-none cursor-crosshair overflow-hidden touch-none"
+      className={`relative w-[15.5rem] max-w-full aspect-[4/5] mx-auto md:mr-0 select-none cursor-crosshair overflow-hidden touch-none border border-black/5 bg-[#ebebeb] ${className}`}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       onTouchMove={onTouchMove}

@@ -22,26 +22,60 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=Manrope:wght@200..800&family=Onest:wght@100..900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Instrument+Serif:ital,wght@0,400;1,400&family=Manrope:wght@200..800&family=Onest:wght@100..900&display=swap"
     rel="stylesheet">
 
   <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     html {
       scroll-behavior: smooth;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
     }
 
     body {
       font-family: 'Manrope', sans-serif;
       background-color: #F4F4F4;
       color: #1a1a1a;
+      width: 100%;
+      max-width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    #root {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
     }
 
     .font-serif {
       font-family: 'Instrument Serif', serif;
     }
 
+    .font-cursive {
+      font-family: 'Dancing Script', cursive;
+    }
+
     .font-onest {
       font-family: 'Onest', sans-serif;
+    }
+
+    /* Custom smooth scrollbar for overflow containers */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   </style>
 </head>
