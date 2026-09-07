@@ -6,7 +6,7 @@ import vatsalPost1 from '../img/vatsal parikh.webp';
 import vatsalPost2 from '../img/vatsal parikh2.webp';
 import scanAndPayImg from '../user_flow_img/Scan and Pay.webp';
 import existingSplitFlowImg from '../user_flow_img/Split and Pay method.webp';
-import newSplitInScanPayImg from '../user_flow_img/Current Split and pay method inside the scan and pay method (2).png';
+import newSplitInScanPayImg from '../user_flow_img/Current Split and pay method inside the scan and pay method (2).webp';
 
 import designThumbnail from '../img/case study design/Thumbnail.webp';
 import design1 from '../img/case study design/Desktop - 1.webp';
@@ -434,8 +434,8 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16 py-8 md:py-16 relative">
             
             {/* Desktop Sidebar Table of Contents */}
-            <div className="hidden md:block md:col-span-3 lg:col-span-3">
-               <div className="sticky top-32 text-[#1a1a1a] font-onest max-h-[calc(100vh-8rem)] overflow-y-auto hide-scrollbar pb-[1.618rem]">
+            <aside className="hidden md:block md:col-span-3 lg:col-span-3 relative">
+               <div className="sticky top-28 lg:top-32 text-[#1a1a1a] font-onest max-h-[calc(100vh-8rem)] overflow-y-auto hide-scrollbar pb-[1.618rem] z-20">
                   <div className="flex flex-col gap-[0.382rem]">
                     {sections.map((section) => {
                         const isSectionActive = activeId === section.id || (section.children && section.children.some(c => c.id === activeId));
@@ -481,7 +481,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                     )})}
                   </div>
                </div>
-            </div>
+             </aside>
 
             {/* Main Content Area */}
             <div className="col-span-1 md:col-span-9 lg:col-span-8 lg:col-start-5 flex flex-col gap-[6.854rem] md:gap-[11.09rem] pb-[6.854rem]">

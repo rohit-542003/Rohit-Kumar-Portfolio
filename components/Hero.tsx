@@ -40,7 +40,7 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ showImage = true, showMainHeading = true }) => {
   return (
-    <section className="relative w-full min-h-[100svh] flex flex-col justify-center px-4 sm:px-6 md:px-16 overflow-hidden pt-24 sm:pt-0 pb-12 sm:pb-0">
+    <section className="relative w-full min-h-[100svh] flex flex-col justify-center px-4 sm:px-6 md:px-16 overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16">
       <style>{`
         @keyframes weight-wave { 0%, 100% { font-variation-settings: "wght" 200; opacity: 0.8; } 50% { font-variation-settings: "wght" 800; opacity: 1; } }
         .gradient-border-mask {
@@ -50,7 +50,7 @@ const Hero: React.FC<HeroProps> = ({ showImage = true, showMainHeading = true })
         }
       `}</style>
 
-      <div className="w-full max-w-[1060px] mx-auto flex flex-col gap-6 sm:gap-8 md:gap-10 sm:mt-[-5vh]">
+      <div className="w-full max-w-[1060px] mx-auto flex flex-col gap-6 sm:gap-8 md:gap-10">
         {/* Full-width top section for Status and Main Headline */}
         {showMainHeading && (
           <div className="w-full flex flex-col items-start">
