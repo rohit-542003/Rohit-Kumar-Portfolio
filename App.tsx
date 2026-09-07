@@ -125,7 +125,7 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F4F4F4] text-[#1a1a1a] relative">
+    <main className="min-h-screen w-full max-w-full overflow-x-clip bg-[#F4F4F4] text-[#1a1a1a] relative">
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       <CustomCursor />
 
