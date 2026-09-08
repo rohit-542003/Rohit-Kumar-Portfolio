@@ -1,6 +1,7 @@
 import React from 'react';
 import FocusImage from './FocusImage';
 import resumePdf from '../img/Rohit Kumar Prajapati.pdf';
+import { LiquidMetalButton } from './ui/liquid-metal-button';
 
 const VariableWeightText: React.FC<{ text: string }> = ({ text }) => {
   const words = text.split(" ");
@@ -104,42 +105,35 @@ const Hero: React.FC<HeroProps> = ({ showImage = true, showMainHeading = true })
               {showImage && (
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 animate-fade-in-up delay-300">
                   {/* Primary Button */}
-                  <a 
-                    href="mailto:uxrohitkumar@gmail.com" 
-                    className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-[#282828] text-white border border-black/80 rounded-[40px] overflow-hidden transition-all duration-300 sm:hover:pr-12 active:scale-95 shadow-sm sm:hover:bg-[#1a1a1a] sm:hover:shadow-md text-sm sm:text-base"
-                  >
-                    {/* Content (Text & Icon) */}
-                    <span className="relative z-10 font-normal tracking-normal leading-none sm:blur-[2px] sm:opacity-80 sm:group-hover:blur-none sm:group-hover:opacity-100 transition-all duration-500">Let's Build/Talk</span>
-                    <span className="hidden sm:inline-block absolute right-5 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 z-10">
+                  <LiquidMetalButton 
+                    label="Let's Build/Talk" 
+                    backgroundColor="#282828"
+                    textColor="#ffffff"
+                    rightIcon={
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
-                    </span>
-
-                    {/* Ambient Soft Shine */}
-                    <div className="hidden sm:block absolute inset-0 -translate-x-[150%] group-hover:translate-x-[200%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-1000 ease-in-out pointer-events-none z-10"></div>
-                    
-                    {/* Subtle Rainbow Prism Glare */}
-                    <div className="hidden sm:block absolute top-0 bottom-0 left-0 w-24 -translate-x-[20rem] group-hover:translate-x-[25rem] bg-[linear-gradient(to_right,transparent,rgba(236,72,153,0.2),rgba(234,179,8,0.2),rgba(59,130,246,0.2),transparent)] skew-x-12 transition-none group-hover:transition-transform group-hover:duration-[1100ms] ease-out pointer-events-none z-10"></div>
-
-                    {/* Hard Sharp Glass Shine */}
-                    <div className="hidden sm:block absolute top-0 bottom-0 left-0 w-12 -translate-x-[20rem] group-hover:translate-x-[25rem] bg-gradient-to-r from-transparent via-white/70 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-[850ms] ease-out pointer-events-none z-10"></div>
-                  </a>
+                    }
+                    onClick={() => { window.location.href = "mailto:uxrohitkumar@gmail.com"; }}
+                  />
 
                   {/* Secondary Button */}
-                  <a 
-                    href={resumePdf} 
-                    download="Rohit_Kumar_Prajapati_Resume.pdf"
-                    className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-transparent border border-black/20 text-[#1a1a1a] rounded-[40px] overflow-hidden transition-all duration-300 sm:hover:border-black sm:hover:pr-12 active:scale-95 text-sm sm:text-base"
-                  >
-                    <span className="relative z-10 font-normal tracking-normal leading-none">Download Resume / CV</span>
-                    <span className="hidden sm:inline-block absolute right-5 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                  <LiquidMetalButton 
+                    label="Download Resume / CV" 
+                    backgroundColor="#ffffff"
+                    textColor="#1a1a1a"
+                    rightIcon={
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                       </svg>
-                    </span>
-                    <div className="hidden sm:block absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] bg-gradient-to-r from-transparent via-black/10 to-transparent skew-x-12 transition-none group-hover:transition-transform group-hover:duration-1000 ease-in-out pointer-events-none"></div>
-                  </a>
+                    }
+                    onClick={() => {
+                      const a = document.createElement('a');
+                      a.href = resumePdf;
+                      a.download = "Rohit_Kumar_Prajapati_Resume.pdf";
+                      a.click();
+                    }}
+                  />
                 </div>
               )}
             </div>

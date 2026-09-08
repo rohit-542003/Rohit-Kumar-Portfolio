@@ -213,8 +213,9 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
 
     // Cache loopWidth without forcing layout on every RAF frame
     const updateLoopWidth = () => {
-      if (track) {
-        loopWidthRef.current = track.scrollWidth / 3;
+      if (track && track.children.length > 0) {
+        const firstLoop = track.children[0] as HTMLElement;
+        loopWidthRef.current = firstLoop.getBoundingClientRect().width;
         if (loopWidthRef.current > 0 && currentTranslateRef.current === -1200) {
           currentTranslateRef.current = -loopWidthRef.current;
         }
@@ -303,7 +304,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
     if (Math.abs(deltaX) > 5) {
       hasMovedRef.current = true;
     }
-    const loopWidth = trackRef.current.scrollWidth / 3;
+    const loopWidth = loopWidthRef.current;
     let newTranslate = dragStartTranslateRef.current + deltaX;
 
     if (loopWidth > 0) {
@@ -336,7 +337,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
     if (Math.abs(deltaX) > 5) {
       hasMovedRef.current = true;
     }
-    const loopWidth = trackRef.current.scrollWidth / 3;
+    const loopWidth = loopWidthRef.current;
     let newTranslate = dragStartTranslateRef.current + deltaX;
 
     if (loopWidth > 0) {
@@ -407,55 +408,59 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
               onMouseEnter={() => { isHoveredRef.current = true; }}
               onMouseLeave={() => { isHoveredRef.current = false; }}
             >
-              {displayShowcase.map((project, index) => {
-                return (
-                  <div
-                    key={`${project.id}-${index}`}
-                    onClick={() => handleCardClick(project.id)}
-                    className="iso-card-container group"
-                    style={{
-                      zIndex: index + 1
-                    }}
-                    data-cursor-type="text"
-                    data-cursor-label={project.cursorLabel || "View Project"}
-                  >
-                    {/* The 3D Mockup Card (Upright Standing & Right-Faced) */}
-                    <div className="iso-card-3d">
-                      {/* Top Glass/Gloss Reflection Bar */}
-                      <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-white/25 via-white/10 to-transparent z-20 pointer-events-none rounded-t-[14px]"></div>
+              {[0, 1, 2].map((loopIndex) => (
+                <div key={loopIndex} className="iso-carousel-loop flex items-center shrink-0">
+                  {selectedWorkProjects.map((project, index) => {
+                    return (
+                      <div
+                        key={`${project.id}-${index}`}
+                        onClick={() => handleCardClick(project.id)}
+                        className="iso-card-container group"
+                        style={{
+                          zIndex: loopIndex * 50 + index + 1
+                        }}
+                        data-cursor-type="text"
+                        data-cursor-label={project.cursorLabel || "View Project"}
+                      >
+                        {/* The 3D Mockup Card (Upright Standing & Right-Faced) */}
+                        <div className="iso-card-3d">
+                          {/* Top Glass/Gloss Reflection Bar */}
+                          <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-white/25 via-white/10 to-transparent z-20 pointer-events-none rounded-t-[14px]"></div>
 
-                      {/* Card Content / Project Screenshot */}
-                      <div className={`w-full h-full ${project.bgColor || 'bg-[#111]'} relative overflow-hidden rounded-[14px] flex ${project.alignMode === 'bottom' ? 'items-end justify-center' : 'items-center justify-center'}`}>
-                        <img
-                          src={project.imageSrc}
-                          alt={project.title}
-                          draggable={false}
-                          className={`w-full transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none select-none ${
-                            project.fitMode === 'contain'
-                              ? `object-contain ${project.alignMode === 'bottom' ? 'object-bottom p-3 pb-0' : 'h-full p-3'}`
-                              : `h-full object-cover ${project.alignMode === 'bottom' ? 'object-bottom' : ''}`
-                          }`}
-                          loading="eager"
-                          decoding="async"
-                        />
-                        
-                        {/* Subtle ambient shadow over inactive cards */}
-                        <div className="absolute inset-0 bg-black/15 group-hover:bg-black/0 transition-colors duration-500 pointer-events-none"></div>
-                      </div>
+                          {/* Card Content / Project Screenshot */}
+                          <div className={`w-full h-full ${project.bgColor || 'bg-[#111]'} relative overflow-hidden rounded-[14px] flex ${project.alignMode === 'bottom' ? 'items-end justify-center' : 'items-center justify-center'}`}>
+                            <img
+                              src={project.imageSrc}
+                              alt={project.title}
+                              draggable={false}
+                              className={`w-full transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none select-none ${
+                                project.fitMode === 'contain'
+                                  ? `object-contain ${project.alignMode === 'bottom' ? 'object-bottom p-3 pb-0' : 'h-full p-3'}`
+                                  : `h-full object-cover ${project.alignMode === 'bottom' ? 'object-bottom' : ''}`
+                              }`}
+                              loading="eager"
+                              decoding="async"
+                            />
+                            
+                            {/* Subtle ambient shadow over inactive cards */}
+                            <div className="absolute inset-0 bg-black/15 group-hover:bg-black/0 transition-colors duration-500 pointer-events-none"></div>
+                          </div>
 
-                      {/* Floating Interactive Project Pill on Hover */}
-                      <div className="iso-badge absolute -bottom-14 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50 transform group-hover:translate-y-0 translate-y-3">
-                        <div className="bg-[#111116]/98 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-full shadow-2xl border border-white/20 flex items-center gap-2.5">
-                          <span className="font-bold tracking-tight">{project.title}</span>
-                          <span className="w-1 h-1 rounded-full bg-white/40"></span>
-                          <span className="text-gray-300 text-[10px] uppercase font-mono tracking-wider">{project.meta}</span>
-                          <span className="text-[#18A0FB] text-xs">↗</span>
+                          {/* Floating Interactive Project Pill on Hover */}
+                          <div className="iso-badge absolute -bottom-14 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50 transform group-hover:translate-y-0 translate-y-3">
+                            <div className="bg-[#111116]/98 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-full shadow-2xl border border-white/20 flex items-center gap-2.5">
+                              <span className="font-bold tracking-tight">{project.title}</span>
+                              <span className="w-1 h-1 rounded-full bg-white/40"></span>
+                              <span className="text-gray-300 text-[10px] uppercase font-mono tracking-wider">{project.meta}</span>
+                              <span className="text-[#18A0FB] text-xs">↗</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -464,7 +469,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
       <style>{`
         /* Isometric Stage Perspective */
         .iso-viewport {
-          perspective: 2000px;
+          perspective: 1200px;
           perspective-origin: 50% 50%;
           transform-style: preserve-3d;
           width: 100%;
@@ -479,29 +484,34 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
           align-items: center;
           width: max-content;
           transform-style: preserve-3d;
-          padding: 30px 20px 60px;
+          padding: 40px 20px 70px;
           will-change: transform;
           user-select: none;
         }
 
-        /* Individual Card Container with Subtle Spacing */
+        /* 3D Loop Container */
+        .iso-carousel-loop {
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+          transform-style: preserve-3d;
+        }
+
+        /* Individual Card Container with Consistent 3D Overlap (No gaps between loops) */
         .iso-card-container {
           position: relative;
           flex-shrink: 0;
           width: 270px;
           height: 175px;
-          margin-left: -40px;
-        }
-
-        .iso-card-container:first-child {
-          margin-left: 10px;
+          margin-left: -100px;
+          transform-style: preserve-3d;
         }
 
         @media (min-width: 640px) {
           .iso-card-container {
             width: 360px;
             height: 230px;
-            margin-left: -50px;
+            margin-left: -140px;
           }
         }
 
@@ -509,7 +519,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
           .iso-card-container {
             width: 470px;
             height: 300px;
-            margin-left: -70px;
+            margin-left: -185px;
           }
         }
 
@@ -517,11 +527,11 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
           .iso-card-container {
             width: 540px;
             height: 340px;
-            margin-left: -90px;
+            margin-left: -220px;
           }
         }
 
-        /* Upright Standing Right-Faced 3D Mockup Card */
+        /* Upright Standing 45° Perspective Card (Facing Right) */
         .iso-card-3d {
           width: 100%;
           height: 100%;
@@ -529,12 +539,14 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
           position: relative;
           background: #121217;
           border: 1.5px solid rgba(255, 255, 255, 0.18);
-          transform: translate3d(0, 0, 0) rotateY(45deg);
+          transform: rotateY(42deg);
+          transform-style: preserve-3d;
           backface-visibility: hidden;
           will-change: transform;
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
           box-shadow:
-            0 14px 28px -4px rgba(0, 0, 0, 0.38),
+            -15px 22px 40px -5px rgba(0, 0, 0, 0.35),
+            -5px 10px 18px -3px rgba(0, 0, 0, 0.2),
             inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
         }
 
@@ -544,11 +556,11 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
         }
 
         .iso-card-container:hover .iso-card-3d {
-          transform: rotateY(16deg) rotateX(0deg) rotateZ(0deg) translateZ(75px) translateY(-18px) scale(1.04);
+          transform: rotateY(18deg) translateZ(75px) translateY(-18px) scale(1.04);
           border-color: rgba(255, 255, 255, 0.5);
           box-shadow:
-            25px 35px 60px -8px rgba(0, 0, 0, 0.38),
-            8px 15px 25px -4px rgba(0, 0, 0, 0.2),
+            -25px 35px 60px -8px rgba(0, 0, 0, 0.45),
+            -8px 15px 25px -4px rgba(0, 0, 0, 0.25),
             0 0 20px rgba(255, 255, 255, 0.15),
             inset 0 1px 2px rgba(255, 255, 255, 0.4);
         }

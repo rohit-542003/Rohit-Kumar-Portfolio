@@ -78,7 +78,7 @@ const FocusImage: React.FC<FocusImageProps> = ({ className = '' }) => {
 
       {/* Base Blurred Image */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <img loading="lazy" 
+        <img fetchpriority="high" 
           src={IMAGE_URL}
           alt="Rohit Portrait Blur"
           className="w-full h-full object-cover grayscale blur-[6px] scale-110 opacity-80 block"
@@ -97,7 +97,7 @@ const FocusImage: React.FC<FocusImageProps> = ({ className = '' }) => {
         }}
       >
         {/* Inner Clear Image */}
-        <img loading="lazy" 
+        <img fetchpriority="high" 
           src={IMAGE_URL}
           alt="Rohit Portrait Focus"
           className={`absolute max-w-none grayscale object-cover block ${transitionClass}`}
