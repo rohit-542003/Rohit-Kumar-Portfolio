@@ -45,8 +45,9 @@ export const projectDetailsMap: Record<number, ProjectDetailData> = {
     bgColor: "bg-black",
     fitMode: "contain",
     summary: "TypeMe is a sleek, distraction-free typing platform designed to elevate typing fluency and focus. Built with crisp typography, real-time metrics, dynamic visual feedback, and tactile audio feedback.",
-    overview: [],
-    whatIDid: "Typeme.space was a passion project carried out by me & my friend in the midst of night. We used tools like bolt for the quick prototype and UI and then carried out the entire backend process in kiro.",
+    overview: [
+      "In midst of night me and my friend decided to check who has the faster typing speed. So we started to search for the best website for checking the typing speed. We eventually found one, but the problem with the site was it only recorded the typing speed when logged in to the account, if by any chance we exited the scores would reset and our best scores would vanish off. So we found it as a resistance and wanted to build a typing app by ourselves where don't require log in and would be able to save the high scores. So we build this site called typeme.space where one could come and type and wouldn't lose is previous scores after exiting. Me and my friend built it for fun in the midst of the night. We added sound effects, leaderboard. No sign up and log in, just enter your guest name, for the sake of recording the name for leaderboard and then start typing."
+    ],
     features: [
       {
         title: "Real-time Metrics Engine",
