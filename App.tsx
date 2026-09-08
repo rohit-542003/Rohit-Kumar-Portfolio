@@ -18,12 +18,19 @@ export default function App() {
   const [targetSection, setTargetSection] = useState<string | null>(null);
 
   useEffect(() => {
+    let ctx: AudioContext | null = null;
+
     const playClickSound = () => {
       try {
-        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-        if (!AudioContext) return;
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (!AudioContextClass) return;
 
-        const ctx = new AudioContext();
+        if (!ctx || ctx.state === 'closed') {
+          ctx = new AudioContextClass();
+        } else if (ctx.state === 'suspended') {
+          ctx.resume();
+        }
+
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
@@ -44,8 +51,13 @@ export default function App() {
       } catch (e) { }
     };
 
-    window.addEventListener('click', playClickSound);
-    return () => window.removeEventListener('click', playClickSound);
+    window.addEventListener('click', playClickSound, { passive: true });
+    return () => {
+      window.removeEventListener('click', playClickSound);
+      if (ctx) {
+        try { ctx.close(); } catch(e) {}
+      }
+    };
   }, []);
 
   // Handle scrolling after view change

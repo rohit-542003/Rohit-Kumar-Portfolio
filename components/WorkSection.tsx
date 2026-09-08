@@ -175,8 +175,10 @@ interface WorkSectionProps {
 }
 
 const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const loopWidthRef = useRef<number>(0);
+  const isHoveredRef = useRef(false);
   const [isCursorDragging, setIsCursorDragging] = useState(false);
 
   // Drag & Motion refs
@@ -200,31 +202,43 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
     }
   };
 
-  const currentSpeedRef = useRef<number>(1.35);
+  // Speed in pixels per second (butter-smooth independent of monitor refresh rate)
+  const currentSpeedRef = useRef<number>(80);
 
-  // Continuous loop + drag physics
+  // Continuous loop + drag physics with delta-time & IntersectionObserver
   useEffect(() => {
     const track = trackRef.current;
+    const section = sectionRef.current;
     if (!track) return;
 
-    // Set initial position in middle segment
-    const setupInitialPosition = () => {
-      const loopWidth = track.scrollWidth / 3;
-      if (loopWidth > 0 && currentTranslateRef.current === -1200) {
-        currentTranslateRef.current = -loopWidth;
+    // Cache loopWidth without forcing layout on every RAF frame
+    const updateLoopWidth = () => {
+      if (track) {
+        loopWidthRef.current = track.scrollWidth / 3;
+        if (loopWidthRef.current > 0 && currentTranslateRef.current === -1200) {
+          currentTranslateRef.current = -loopWidthRef.current;
+        }
       }
     };
-    setupInitialPosition();
+    updateLoopWidth();
+    window.addEventListener('resize', updateLoopWidth, { passive: true });
 
-    const animate = () => {
-      const loopWidth = track.scrollWidth / 3;
+    let isSectionVisible = true;
+    let lastTime = performance.now();
+
+    const animate = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.05); // capped at 50ms to prevent jumps
+      lastTime = now;
+
+      const loopWidth = loopWidthRef.current;
 
       if (loopWidth > 0) {
-        // Smoothly interpolate speed: fast default (1.35), slow on hover (0.35)
         if (!isDraggingRef.current) {
-          const targetSpeed = isHovered ? 0.35 : 1.35;
-          currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * 0.08;
-          currentTranslateRef.current += currentSpeedRef.current;
+          // 80 px/sec default, 20 px/sec when hovering
+          const targetSpeed = isHoveredRef.current ? 20 : 80;
+          const blendFactor = 1 - Math.exp(-8 * dt);
+          currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * blendFactor;
+          currentTranslateRef.current += currentSpeedRef.current * dt;
         }
 
         // Seamless wrap boundaries
@@ -234,20 +248,45 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
           currentTranslateRef.current += loopWidth;
         }
 
-        track.style.transform = `translateX(${currentTranslateRef.current}px)`;
+        track.style.transform = `translate3d(${currentTranslateRef.current}px, 0, 0)`;
       }
 
-      animationFrameIdRef.current = requestAnimationFrame(animate);
+      if (isSectionVisible) {
+        animationFrameIdRef.current = requestAnimationFrame(animate);
+      } else {
+        animationFrameIdRef.current = null;
+      }
     };
 
-    animationFrameIdRef.current = requestAnimationFrame(animate);
+    // Pause animation when section is scrolled out of viewport
+    let observer: IntersectionObserver | null = null;
+    if (section && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(([entry]) => {
+        isSectionVisible = entry.isIntersecting;
+        if (isSectionVisible) {
+          if (!animationFrameIdRef.current) {
+            lastTime = performance.now();
+            animationFrameIdRef.current = requestAnimationFrame(animate);
+          }
+        } else if (animationFrameIdRef.current) {
+          cancelAnimationFrame(animationFrameIdRef.current);
+          animationFrameIdRef.current = null;
+        }
+      }, { rootMargin: '200px' });
+      observer.observe(section);
+    } else {
+      lastTime = performance.now();
+      animationFrameIdRef.current = requestAnimationFrame(animate);
+    }
 
     return () => {
+      window.removeEventListener('resize', updateLoopWidth);
+      if (observer) observer.disconnect();
       if (animationFrameIdRef.current) {
         cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
-  }, [isHovered]);
+  }, []);
 
   // Mouse drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -334,7 +373,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
       </section>
 
       {/* Selected Work Section - Interactive Draggable 3D Carousel (Upright & Right-Moving) */}
-      <section id="work" className="w-full max-w-full overflow-hidden bg-transparent py-16 md:py-24 relative select-none">
+      <section ref={sectionRef} id="work" className="w-full max-w-full overflow-hidden bg-transparent py-16 md:py-24 relative select-none">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 mb-8 md:mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-[#1a1a1a] font-serif leading-[1.1]">
             Selected <span className="text-gray-400 italic font-serif">Work.</span>
@@ -365,8 +404,8 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
             <div 
               ref={trackRef}
               className="iso-carousel-track"
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+              onMouseEnter={() => { isHoveredRef.current = true; }}
+              onMouseLeave={() => { isHoveredRef.current = false; }}
             >
               {displayShowcase.map((project, index) => {
                 return (
@@ -396,7 +435,8 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
                               ? `object-contain ${project.alignMode === 'bottom' ? 'object-bottom p-3 pb-0' : 'h-full p-3'}`
                               : `h-full object-cover ${project.alignMode === 'bottom' ? 'object-bottom' : ''}`
                           }`}
-                          loading="lazy"
+                          loading="eager"
+                          decoding="async"
                         />
                         
                         {/* Subtle ambient shadow over inactive cards */}
@@ -405,7 +445,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
 
                       {/* Floating Interactive Project Pill on Hover */}
                       <div className="iso-badge absolute -bottom-14 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50 transform group-hover:translate-y-0 translate-y-3">
-                        <div className="bg-[#111116]/95 backdrop-blur-md text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-full shadow-2xl border border-white/20 flex items-center gap-2.5">
+                        <div className="bg-[#111116]/98 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-full shadow-2xl border border-white/20 flex items-center gap-2.5">
                           <span className="font-bold tracking-tight">{project.title}</span>
                           <span className="w-1 h-1 rounded-full bg-white/40"></span>
                           <span className="text-gray-300 text-[10px] uppercase font-mono tracking-wider">{project.meta}</span>
@@ -451,8 +491,6 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
           width: 270px;
           height: 175px;
           margin-left: -40px;
-          transform-style: preserve-3d;
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .iso-card-container:first-child {
@@ -491,13 +529,13 @@ const WorkSection: React.FC<WorkSectionProps> = ({ onProjectClick }) => {
           position: relative;
           background: #121217;
           border: 1.5px solid rgba(255, 255, 255, 0.18);
-          transform: rotateY(45deg) rotateX(0deg) rotateZ(0deg);
-          transform-style: preserve-3d;
-          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+          transform: translate3d(0, 0, 0) rotateY(45deg);
+          backface-visibility: hidden;
+          will-change: transform;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
           box-shadow:
-            15px 20px 35px -5px rgba(0, 0, 0, 0.28),
-            5px 8px 15px -3px rgba(0, 0, 0, 0.16),
-            inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+            0 14px 28px -4px rgba(0, 0, 0, 0.38),
+            inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         /* Hover Elevation - Pops out forward while standing upright */

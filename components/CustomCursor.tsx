@@ -43,6 +43,7 @@ const CustomCursor = () => {
   // Follower position (smooth)
   const cursorX = useRef(0);
   const cursorY = useRef(0);
+  const isAnimatingRef = useRef(false);
 
   const [isVisible, setIsVisible] = useState(false);
   const [variant, setVariant] = useState<'default' | 'button' | 'text' | 'hidden'>('default');
@@ -57,44 +58,67 @@ const CustomCursor = () => {
 
     setIsVisible(true);
 
+    const animate = () => {
+      // 0.35 factor for crisp, responsive movement (Apple-like)
+      cursorX.current = lerp(cursorX.current, mouseX.current, 0.35);
+      cursorY.current = lerp(cursorY.current, mouseY.current, 0.35);
+
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${cursorX.current}px, ${cursorY.current}px, 0)`;
+      }
+
+      const dx = Math.abs(cursorX.current - mouseX.current);
+      const dy = Math.abs(cursorY.current - mouseY.current);
+      if (dx < 0.15 && dy < 0.15) {
+        cursorX.current = mouseX.current;
+        cursorY.current = mouseY.current;
+        if (cursorRef.current) {
+          cursorRef.current.style.transform = `translate3d(${cursorX.current}px, ${cursorY.current}px, 0)`;
+        }
+        isAnimatingRef.current = false;
+        return;
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.current = e.clientX;
       mouseY.current = e.clientY;
+      if (!isAnimatingRef.current) {
+        isAnimatingRef.current = true;
+        animationFrameId = requestAnimationFrame(animate);
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      
+      let nextVariant: 'default' | 'button' | 'text' | 'hidden' = 'default';
+      let nextLabel = '';
+
       // Check for hidden cursor zones
       if (target.closest('[data-cursor-type="hidden"]')) {
-        setVariant('hidden');
-        return;
+        nextVariant = 'hidden';
+      } else {
+        const textElement = target.closest('[data-cursor-type="text"]') as HTMLElement;
+        if (textElement) {
+          nextVariant = 'text';
+          nextLabel = textElement.dataset.cursorLabel || '';
+        } else if (
+          target.tagName === 'A' || 
+          target.tagName === 'BUTTON' || 
+          target.closest('a') || 
+          target.closest('button') || 
+          target.closest('[role="button"]') ||
+          target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA'
+        ) {
+          nextVariant = 'button';
+        }
       }
 
-      // Check for text cursor zones
-      const textElement = target.closest('[data-cursor-type="text"]') as HTMLElement;
-      if (textElement) {
-        setVariant('text');
-        setLabel(textElement.dataset.cursorLabel || '');
-        return;
-      }
-
-      // Check for interactive elements
-      if (
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' || 
-        target.closest('a') || 
-        target.closest('button') || 
-        target.closest('[role="button"]') ||
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA'
-      ) {
-        setVariant('button');
-        return;
-      }
-
-      setVariant('default');
-      setLabel('');
+      setVariant(prev => prev !== nextVariant ? nextVariant : prev);
+      setLabel(prev => prev !== nextLabel ? nextLabel : prev);
     };
     
     const handleMouseDown = (e: MouseEvent) => {
@@ -107,26 +131,15 @@ const CustomCursor = () => {
         }, 800);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
+    window.addEventListener('mousedown', handleMouseDown, { passive: true });
 
     // Animation Loop
     let animationFrameId: number;
     const lerp = (start: number, end: number, factor: number) => start + (end - start) * factor;
 
-    const animate = () => {
-      // 0.35 factor for crisp, responsive movement (Apple-like)
-      cursorX.current = lerp(cursorX.current, mouseX.current, 0.35);
-      cursorY.current = lerp(cursorY.current, mouseY.current, 0.35);
-
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${cursorX.current}px, ${cursorY.current}px, 0)`;
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
+    isAnimatingRef.current = true;
     animate();
 
     return () => {

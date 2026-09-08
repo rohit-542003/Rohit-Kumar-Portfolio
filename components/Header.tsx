@@ -39,26 +39,34 @@ const Header: React.FC<HeaderProps> = ({ currentView, isCaseStudy, onNavigate })
       return;
     }
 
+    let ticking = false;
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 120;
-      const sections = isCaseStudy
-        ? ['overview', 'research', 'define', 'architecture', 'design', 'outcome']
-        : ['work'];
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY + 120;
+          const sections = isCaseStudy
+            ? ['overview', 'research', 'define', 'architecture', 'design', 'outcome']
+            : ['work'];
 
-      let current = '';
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            current = section;
+          let current = '';
+          for (const section of sections) {
+            const element = document.getElementById(section);
+            if (element) {
+              const { offsetTop, offsetHeight } = element;
+              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                current = section;
+              }
+            }
           }
-        }
+          const nextSection = current || 'home';
+          setActiveSection(prev => prev !== nextSection ? nextSection : prev);
+          ticking = false;
+        });
+        ticking = true;
       }
-      setActiveSection(current || 'home');
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isCaseStudy, currentView]);
 
