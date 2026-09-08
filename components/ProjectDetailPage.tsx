@@ -399,14 +399,6 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onBack
                         <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Role</span>
                         <span className="text-sm sm:text-base font-serif text-[#1a1a1a]">{project.role}</span>
                      </div>
-                     {project.techStack && project.techStack.length > 0 && (
-                       <div className="col-span-2">
-                          <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tools Used</span>
-                          <span className="text-sm sm:text-base font-serif text-[#1a1a1a] leading-relaxed block">
-                              {project.techStack.join(', ')}
-                          </span>
-                       </div>
-                     )}
                 </div>
             </div>
 
