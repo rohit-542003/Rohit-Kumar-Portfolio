@@ -19,7 +19,7 @@ export interface ProjectItem {
   bgColor?: string;
   centerText?: string;
   linkUrl: string;
-  linkLabel: string;
+  linkLabel?: string;
   cursorLabel?: string;
   isExternal: boolean;
 }
@@ -28,14 +28,13 @@ const projects: ProjectItem[] = [
   {
     id: 1,
     title: "Seamless split and pay",
-    meta: "GOOGLE PAY • UX CASE STUDY",
+    meta: "GOOGLE PAY • REDESIGNING SHARED EXPENSES",
     type: "image",
     imageSrc: thumbnailGPay,
     fitMode: "cover",
     bgColor: "bg-gray-100",
     centerText: "",
-    linkUrl: "https://www.figma.com/design/RdwSrdq0Gdd3VuA3PdoMO4/GooglePay-redesign?node-id=113-3979",
-    linkLabel: "Figma File",
+    linkUrl: "#",
     cursorLabel: "View Case Study",
     isExternal: false
   },
@@ -143,24 +142,26 @@ const CaseStudyCard: React.FC<{
 
       <div className="mt-0">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-4">
-          <a
-            href={project.linkUrl}
-            target={project.isExternal ? "_blank" : undefined}
-            rel={project.isExternal ? "noopener noreferrer" : undefined}
-            onClick={(e) => {
-              if (!project.isExternal || project.linkUrl === '#') {
-                e.preventDefault();
-                e.stopPropagation();
-                onClick();
-              } else {
-                e.stopPropagation();
-              }
-            }}
-            className="group inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#18A0FB] hover:text-[#0b79c3] transition-colors"
-          >
-            {project.linkLabel}
-            <ArrowRightIcon className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-45" />
-          </a>
+          {project.linkLabel && (
+            <a
+              href={project.linkUrl}
+              target={project.isExternal ? "_blank" : undefined}
+              rel={project.isExternal ? "noopener noreferrer" : undefined}
+              onClick={(e) => {
+                if (!project.isExternal || project.linkUrl === '#') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onClick();
+                } else {
+                  e.stopPropagation();
+                }
+              }}
+              className="group inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#18A0FB] hover:text-[#0b79c3] transition-colors"
+            >
+              {project.linkLabel}
+              <ArrowRightIcon className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-45" />
+            </a>
+          )}
           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] shrink-0">
             {project.meta}
           </span>
