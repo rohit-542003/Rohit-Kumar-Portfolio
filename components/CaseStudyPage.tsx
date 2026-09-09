@@ -377,18 +377,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ onBack }) => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                     <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-[#3B82F6]"></span>
-                        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-500">Google Pay • UX Case Study</span>
-                    </div>
-                    <div className="flex flex-wrap gap-3">
-                        <a 
-                            href="https://www.figma.com/design/RdwSrdq0Gdd3VuA3PdoMO4/GooglePay-redesign?node-id=113-3979" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#18A0FB] hover:text-[#0b79c3] transition-colors"
-                        >
-                            Figma File
-                            <ArrowRightIcon className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-45" />
-                        </a>
+                        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-500">Google Pay • Redesigning shared expenses.</span>
                     </div>
                 </div>
                 <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-600 font-onest max-w-2xl mb-6">Integrating expense splitting directly into the Scan & Pay flow to complete payment process without post-payment hassle.</p>
